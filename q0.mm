@@ -893,22 +893,31 @@ $(
 $)
 
   ${
-    $d F x $.
-    dffun.1 $e |- F : ( alpha beta ) $. 
-    $( A definition of a function (5205). Note that ` x ` shall not be free in
-       ` F ` . $)
-    dffun $p |- [ F = [ L^ x [ F x ] ] ] . $=
-      ( vy feq fop fx fap fab tab to fal weq xa ax-3 wap wab eqtr ax-4ap apeq12
-      eqid ax-4c ax-4i eqeq2 aleq eqr mpeq ) DDGHZDDCIZJZCKZGHZABLZDEUCMUJDFIZJ
-      ZUQGHZFNZUNUODDEEOABFDDEEBFPZQMUNUSUODUMEABULCABDUKEBCPZRVASZOZMUNUQUMUPJ
-      ZGHZFNUSVCABFDUMEVBUTQVEURFAUQVDABDUPEUTRZABUMUPVBUTRZOAVDUQUQVGVFAVDDCKZ
-      UPJZUKCKZUPJZJUQVGBABUPDCUKUTEVAVAUAABVIDVKUPUOBVHUPUOBDCEVASUTRBBVJUPBBU
-      KCVAVASUTRBUPDCUTVAUDBUPCUTVAUEUBTUFUGTUHTUI $.
+   $d F x $.
+   dffun.1 $e |- F : ( alpha beta ) $. 
+   $( A definition of a function (5205). Note that ` x ` shall not be free in
+      ` F ` . $)
+   dffun $p |- [ F = [ L^ x [ F x ] ] ] . $=
+     ( vy feq fop fx fap fab tab to fal weq xa ax-3 wap wab eqtr eqid ax-4c eqr
+     ax-4ap ax-4i apeq12 eqeq2 aleq mpeq ) DDGHZDDCIZJZCKZGHZABLZDEUAMUJDFIZJZU
+     QGHZFNZUNUODDEEOABFDDEEBFPZQMUNUSUODUMEABULCABDUKEBCPZRVASZOZMUNUQUMUPJZGH
+     ZFNUSVCABFDUMEVBUTQVEURFAUQVDABDUPEUTRZABUMUPVBUTRZOAVDUQUQVGVFAVDDCKZUPJZ
+     UKCKZUPJZJUQVGBABUPDCUKUTEVAVAUDABVIDVKUPUOBVHUPUOBDCEVASUTRBBVJUPBBUKCVAV
+     ASUTRBUPDCUTVAUBBUPCUTVAUEUFTUGUHTUCTUI $.
   $}
 
-  $( A definition of truth. (5210) $)
-  dft $p |- [ T. = [ A = A ] ] . $=
-    ? $.
+  ${
+   dft.1 $e |- A : alpha $.
+	 $( A definition of truth. (5210) $)
+	 dft $p |- [ T. = [ A = A ] ] . $=
+	   ( vx vy to ft fab fap feq fop wt xa wab wap fx tab mpeq weq eqtr ax-4c eqr
+     fal eqid ax-3 df-al ax-4i eqeq12 abeq eqeq2 apeq1 eqab ) FGGDHZBIZBBJKZLFU
+     NGFAUMBFAGDLADMZNZCOZABGDCUPUAUBFUNDPZUSJKZDHZBIZUOURFAUMVABUQCUMEPZEHZUSI
+     ZVEJKZDHZJKZUMVAJKVFDUCZVHVDVDJKVIAAQVDAAVCEAEMZVJNZUDAADVDVDVKVKUPUERVFDA
+     VEVEAAVDUSVKUPOZVLSZUFRFAQVGVAUMFAVFDVMUPNUQFVFUTDVMAVEUSVEUSVLVLAUSEUPVJU
+     GZVNUHUIUJRUKFVBUSDHZBIZVPJKUOFAVABFAUTDAUSUSUPUPSUPNCOAABUSDUSCUPUPUPULAV
+     PBVPBAAVOBAAUSDUPUPNCOZVQABDCUPUGZVRUHTTT $.
+  $}
 
   $( Truth and Truth. (5211) $)
   tant $p |- [ [ T. /\ T. ] = T. ] . $=
