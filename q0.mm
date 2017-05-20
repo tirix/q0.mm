@@ -368,14 +368,14 @@ $)
   $c ~ $. $( Logical negation $)
   $c \/ $. $( Logical disjunction $)
   $c /\ $. $( Logical conjunction $)
-  $c =) $. $( Logical inference ( U+2283 ' Superset of ' ) $)
+  $c -> $. $( Logical inference ( U+2283 ' Superset of ' ) $)
   fbi $a wff == $.
   ft $a wff T. $.
   ff $a wff F. $.
   fn $a wff ~ $.
   fan  $a wff /\ $.
   fo   $a wff \/ $.
-  fin  $a wff =) $.
+  fin  $a wff -> $.
 
   ${
     df-bi.1 $e |- B : _o $.
@@ -399,7 +399,7 @@ $)
     [ [ L^ g [ [ g T. ] T. ] ] = [ L^ g [ [ g x ] y ] ] ] ] ] ] . $.
 
   $( Define inference. $)
-  df-in $a |- [ =) = [ L^ x [ L^ y [ x = [ x /\ y ] ] ] ] ] . $.
+  df-in $a |- [ -> = [ L^ x [ L^ y [ x = [ x /\ y ] ] ] ] ] . $.
 
 $(
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -468,7 +468,7 @@ $)
     BUEADDUDHUADUCHUBAOZPQPQUORDUBUJADDUHUIUADUCUGUODBOZQDCOZQUORSUQRUPRT $.
 
   $( Type of tthe logical inference operator $)
-  win $p |- =) : ( ( _o _o ) _o ) $=
+  win $p |- -> : ( ( _o _o ) _o ) $=
     ( vx vy to tab fin fx fan fop feq fab df-in eqq xa wan wop weq wab r-t ) CC
     DZCDEAFZTBFZGHZIHZBJZAJZEUEABKLSCUDACCUCBCTUBCAMZCCCTUAGUFCBMZNOPUGQUFQR $.
 
@@ -483,7 +483,7 @@ $)
     wim.1 $e |- A : _o $.
     wim.2 $e |- B : _o $.
     $( An inference is a truth value. $)
-    wim $p |- [ A =) B ] : _o $=
+    wim $p |- [ A -> B ] : _o $=
       ( to fin win wop ) EEEABFCDGH $.
   $}
 
@@ -525,7 +525,7 @@ $)
     ax-2.3 $e |- C : ( _o alpha ) $.
     $( Axiom 2 expresses the idea that applying the same function on two equal
        values yields to the same value. $)
-    ax-2 $a |- [ [ A = B ] =) [ [ C A ] = [ C B ] ] ] . $.
+    ax-2 $a |- [ [ A = B ] -> [ [ C A ] = [ C B ] ] ] . $.
   $}
 
   ${
@@ -927,10 +927,10 @@ $)
   truth $p |- T. . $=
     ? $.
 
-  imval $p |- [ [ A =) B ] == [ A == [ A /\ B ] ] ] . $=
+  imval $p |- [ [ A -> B ] == [ A == [ A /\ B ] ] ] . $=
     ? $.
 
-  imval2 $p |- [ [ A =) B ] = [ [ ~ A ] \/ B ] ] . $=
+  imval2 $p |- [ [ A -> B ] = [ [ ~ A ] \/ B ] ] . $=
     ? $.
 
 $(
@@ -948,12 +948,12 @@ $)
       ? $. 
   $}
 
-	eqcom $p |- [ [ A = B ] =) [ B = A ] ] . $=
+	eqcom $p |- [ [ A = B ] -> [ B = A ] ] . $=
 	  ? $.
 
   ${
     wiki.1 $e |- [ E. x A ] . $.
-    wiki.2 $e |- [ A =) B ] . $.
+    wiki.2 $e |- [ A -> B ] . $.
     $( Example in wikipedia $)
     wiki $p |- [ E. x [ A /\ B ] ] . $=
       ? $.    
