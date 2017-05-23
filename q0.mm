@@ -72,22 +72,59 @@ $)
 
 $(
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+                        Variable Type Declarations
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+$)
+
+  $( In Church's notation, a subscript is added whenever a formula is used
+     to specify its type. However in this implementation, we'll first
+     state the types requirements, then use the formula symbols without 
+     subscripts. For compound formula, this will be done as hypothesis, but
+     for variables, this will be done in the context of the formula, as
+     part of a variable type declaration, prepended to the statement. $)
+
+  $( Declare primitive constant symbols $)
+  $c | $. $( Empty variable declaration $)
+  $c : $. $( Semicolon, used in type statements $)
+  $c wff $. $( Symbol used to introduce wff's $)
+  $c variable $. $( Symbol used to introduce variables $)
+  $c vardecl $. $( Symbol used to introduce variable type declarations $)
+
+  $( Introduce variable names to represent wff $)
+  $v A B W $.
+  fa $f wff A $.
+  fb $f wff B $.
+  fw $f wff W $.
+
+  $( Introduce variable names to represent Q0 variables $)
+  $v x y z g $.
+  vx $f variable x $.
+  vy $f variable y $.
+  vz $f variable z $.
+  vg $f variable g $.
+
+  $( Define variable type declarations : variable type declarations consist in
+     a list of "variable : type" assignments. $)
+  $v V/  W/ $.
+  fvv $f vardecl V/ $.
+  fvw $f vardecl W/ $.
+
+  $( Empty variable type declaration $)
+  de $a vardecl | $.
+
+  $( Recursive variable type declaration, prepending a "variable : type"
+     assignment to an already existing variable type declaration. $)
+  dx $a vardecl x : alpha V/ $.
+
+$(
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
                                Formulas
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 $)
   $( Declare primitive constant symbols $)
-  $c wff $. $( Symbol used to introduce wff $)
-  $c : $. $( Semicolon, used in type statements $)
   $c [ $.  $( Left bracket $)
   $c ] $.  $( Right bracket $)
 
-  $( Introduce variable names to represent formulas $)
-  $v A $.
-  $v B $.
-  $v W $.
-  fa $f wff A $.
-  fb $f wff B $.
-  fw $f wff W $.
 
   $c statement $. $( Statement symbol $)
   $c . $. $( Used to terminate a wff statement $)
@@ -110,16 +147,76 @@ $)
 
 	$( The following structure is to be read ` A ` is of type ` alpha ` 
 	   It is used in hypothesis steps when we want to restrict statements
-	   to formulas of certain types. In Church's notation, the subscript is added
-	   whenever the formula is used. However in this implementation, we'll first
-	   state the types requirements, then use the formula symbols without 
-	   subscripts. $)
-  wta $a statement A : alpha $.
+	   to formulas of certain types. $)
+  sta $a statement V/ A : alpha $.
 	
 	$( Statement of the type theory are wff of type ` _o ` . However we don't
-	   (can't?) add an hypothesis step that requires ` W : _o ` . Instead,
-	   all our axioms will effectively be of type ` _o ` $)
-  ww $a statement W . $.
+	   add an hypothesis step that requires ` W : _o ` , as this would 
+	   unnecessarily complexify the statements.
+	   Instead, all our axioms will effectively be of type ` _o ` $)
+  sw $a statement V/ W . $.
+
+  $( Both statement definitions also include a list variable type declarations
+     ` V/ ` which is used to specific the types of the variables used in these 
+     statements. Any hypothesis for wff types are specified in separated 
+     hypothesis statements. However, this cannot be done for variables as 
+     variable's scopes are the statements in which they are used, and they 
+     cannot be extracted, which is the reason why variable type declarations
+     have been introduced. $)
+
+  ${
+    $d x A $.
+    dat.1 $e |- V/ A : alpha $.
+    $( If ` x ` does not appear in a type statement, then a variable type 
+       declaration for ` x ` can be added. $)
+    dat $a |- x : beta V/ A : alpha $.
+  $}
+
+  ${
+    $d x W $.
+    daf.1 $e |- V/ W . $.
+    $( If ` x ` does not appear in a wff statement, then a variable type 
+       declaration for ` x ` can be added. $)
+    daf $a |- x : alpha V/ W . $.
+  $}
+
+  ${
+    $d x A $.
+    ddt.1 $e |- x : alpha V/ A : beta $.
+    $( Drop an unused variable type hypothesis from a type statement. $)
+    ddt $a |- V/ A : beta $.
+  $}
+
+  ${
+    $d x W $.
+    ddf.1 $e |- x : alpha V/ W . $.
+    $( Drop an unused variable type hypothesis from a wff statement. $)
+    ddf $a |- V/ W . $.
+  $}
+  
+  ${
+    ds2t.1 $e |- x : alpha y : beta V/ A : gamma $.
+    $( Swap the two first type declarations in a type statement $)
+    ds2t $a |- y : beta x : alpha V/ A : gamma $.
+  $}
+  
+  ${
+    ds2f.1 $e |- x : alpha y : beta V/ W . $.
+    $( Swap the two first type declarations in a wff statement $)
+    ds2f $a |- y : beta x : alpha V/ W . $.
+  $}
+
+  ${
+    ds3t.1 $e |- x : alpha y : beta z : gamma V/ A : delta $.
+    $( Swap the two next type declarations in a type statement $)
+    ds3t $a |- x : alpha z : gamma y : beta V/ A : delta $.
+  $}
+  
+  ${
+    ds3f.1 $e |- x : alpha y : beta z : gamma V/ W . $.
+    $( Swap the two next type declarations in a wff statement $)
+    ds3f $a |- x : alpha z : gamma y : beta V/ W . $.
+  $}
 
   $( $j syntax 'wff'; 
         syntax 'statement'; 
@@ -132,51 +229,41 @@ $)
         primitive 'tab'; 
   $)
 
+  $( A variable alone is a wff $)
+  fx $a wff x $.
+  
+  ${
+    $d x V/ $.
+    $( Infer a variable type from the same variable type hypothesis. $)
+    wxid $a |- x : alpha V/ x : alpha $.
+  $}
+
 	$( The constuct ` [ A B ] ` is called "application" and represents the value
 	   of a function ` A ` applied to ` B ` . $)
   fap $a wff [ A B ] $.
 
   ${
-    wap.1 $e |- A : ( alpha beta ) $.
-    wap.2 $e |- B : beta $.
+    wap.1 $e |- V/ A : ( alpha beta ) $.
+    wap.2 $e |- V/ B : beta $.
     $( If ` A ` is a variable of type ` ( alpha beta ) ` and ` B ` is a wff of 
        type ` beta `then ` [ A B ] ` is a wff of type ` alpha ` . $)
-    wap $a |- [ A B ] : alpha $.
+    wap $a |- V/ [ A B ] : alpha $.
   $}
 
-
-  $c variable $. $( Variable symbol $)
   $c L^ $.  $( Lambda symbol $)
-
-  $( Introduce variable names to represent variables $)
-  $v x $.
-  $v y $.
-  $v g $.
-  vx $f variable x $.
-  vy $f variable y $.
-  vg $f variable g $.
-  
-  $( A variable alone is a wff $)
-  fx $a wff x $.
-  
-  $( A variable can be assigned any type (note that this can possibly be 
-     dangerous as we cannot prevent it to be invoked several times in the same
-     proof, with different types. $)
-  xa $a |- x : alpha $.
   
   $( The construct ` [ L^ x A ] ` is called "abstraction" and represents the 
      function mapping ` x ` to ` A ` , whereas ` x ` can be free in ` A ` . $)
   fab $a wff [ L^ x A ] $.
 
   ${
-    wab.1 $e |- A : alpha $.
-    wab.2 $e |- x : beta $.
+    wab.1 $e |- x : beta V/ A : alpha $.
 		$( If ` x ` is a variable of type ` beta ` and ` A ` is a wff of type 
 		   ` alpha `then ` [ L^ x A ] ` is a wff of type ` ( alpha beta ) ` . 
 		   I.e. ` [ L^ x A ] ` is constructing a function from elements of type 
 		   ` beta ` , the type of ` x ` , to elements of type ` alpha ` , the
 		   type of ` A ` . $)
-    wab $a |- [ L^ x A ] : ( alpha beta ) $.
+    wab $a |- V/ [ L^ x A ] : ( alpha beta ) $.
   $}
 
 $(
@@ -196,18 +283,18 @@ $)
   fi $a wff I. $.
 
   $( Define the type of ` Q ` $)
-  wq $a |- Q. : ( ( _o alpha ) alpha ) $.
+  wq $a |- V/ Q. : ( ( _o alpha ) alpha ) $.
 
   $( Define the type of ` I ` $)
-  wi $a |- I. : ( _i ( _o _i ) ) $.
+  wi $a |- V/ I. : ( _i ( _o _i ) ) $.
 
   ${
-    wqeq.1 $e |- A : alpha $.
-    wqeq.2 $e |- B : alpha $.
+    wqeq.1 $e |- V/ A : alpha $.
+    wqeq.2 $e |- V/ B : alpha $.
     $( The wff ` [ [ Q. A ] B ] ` is a truth value. We will later define it
        as ` [ A = B ] ` - see ~ df-eq . $)
-    wqeq $p |- [ [ Q. A ] B ] : _o $=
-      ( to fq fap tab wq wap ) FAGBHCFAIAGBAJDKEK $.
+    wqeq $p |- V/ [ [ Q. A ] B ] : _o $=
+      ( to fq fap tab wq wap ) GAHBICDGAJAHBDADKELFL $.
   $}
 
 $(
@@ -240,29 +327,31 @@ $)
      ` [ A = B ] ` , but this abbreviation has not been introduced yet. 
      See ~ df-eq. and ~ df-op $)
 	${
-	  r-f.1 $e |- [ [ Q. A ] B ] . $.
+	  r-f.1 $e |- V/ [ [ Q. A ] B ] . $.
     ${
-      r-t.2 $e |- B : alpha $.
+      r-t.2 $e |- V/ B : alpha $.
       $( Inference in a type declaration $)
-      r-t $a |- A : alpha $.
+      r-t $a |- V/ A : alpha $.
     $}
     ${
-	    r-f.2 $e |- A . $.
+	    r-f.2 $e |- V/ A . $.
       $( The Q0 inference rule, related to modus ponens and equality : if 
          ` [ A = B ] ` we can infer ` B ` from ` A ` . $)
-	    r-f $a |- B . $.
+	    r-f $a |- V/ B . $.
 	  $}
 
     $( We can apply the inference rule of Q0 only on the first (function) term 
        of a function application. $)
-    r-ap1 $a |- [ [ Q. [ A C ] ] [ B C ] ] . $.
+    r-ap1 $a |- V/ [ [ Q. [ A C ] ] [ B C ] ] . $.
 
     $( We can apply the inference rule of Q0 only on the second term of a 
        function application. $)
-    r-ap2 $a |- [ [ Q. [ C A ] ] [ C B ] ] . $.
-
+    r-ap2 $a |- V/ [ [ Q. [ C A ] ] [ C B ] ] . $.
+  $}
+  ${
+    r-ab.1 $e |- x : alpha V/ [ [ Q. A ] B ] . $.
     $( We can apply the inference rule of Q0 on the term of an abstraction $) 
-    r-ab $a |- [ [ Q. [ L^ x A ] ] [ L^ x B ] ] . $.
+    r-ab $a |- V/ [ [ Q. [ L^ x A ] ] [ L^ x B ] ] . $.
   $}
 
 $(
@@ -288,8 +377,9 @@ $)
      be reused for common constructs like ` [ A + B ] ` . $)
 
   $( Introduce an additional symbol to represent an operation formula $)
-    $v R $.
+    $v R S $.
     fr $f wff R $.
+    fs $f wff S $.
   
   $( Extract from [2]:
   
@@ -317,15 +407,15 @@ $)
      definition cannot make use of the ` [ A = B ] ` construct itself, since 
      we chose to consider that that construct actually follows the same model 
      itself. $)
-  df-op $a |- [ [ Q. [ A R B ] ] [ [ R A ] B ] ] . $.
+  df-op $a |- V/ [ [ Q. [ A R B ] ] [ [ R A ] B ] ] . $.
 
   ${
-    wop.1 $e |- A : alpha $.
-    wop.2 $e |- B : beta $.
-    wop.3 $e |- R : ( ( gamma beta ) alpha ) $.
+    wop.1 $e |- V/ A : alpha $.
+    wop.2 $e |- V/ B : beta $.
+    wop.3 $e |- V/ R : ( ( gamma beta ) alpha ) $.
     $( Type of the operation construct. $)
-    wop $p |- [ A R B ] : gamma $=
-      ( fop fap df-op tab wap r-t ) CDEFJFDKZEKDEFLCBPECBMAFDIGNHNO $.
+    wop $p |- V/ [ A R B ] : gamma $=
+      ( fop fap df-op tab wap r-t ) CDEGKGDLZELFDEFGMCBQEFCBNAGDFJHOIOP $.
   $}
 
 $(
@@ -341,16 +431,16 @@ $)
      definition, formulas like ` [ = [ A ] B ] ` or ` [ A Q. B ] ` would make
      sense, however we will always use ` [ [ Q A ] B ] ` and ` [ A = B ] `
      instead : All those formulas are equivalent. $)
-  df-eq $a |- [ [ Q. = ] Q. ] . $.
+  df-eq $a |- V/ [ [ Q. = ] Q. ] . $.
 
   ${
-    eqq.1 $e |- [ A = B ] . $.
+    eqq.1 $e |- V/ [ A = B ] . $.
     $( Substitution of an equality into its form using the ` Q. ` operator 
        by its abbreviation. This theorem, if applied on the axioms and on the 
        abbreviations definitions, will lead to their exploded form. $)
-    eqq $p |- [ [ Q. A ] B ] . $=
-      ( feq fap fq df-eq r-ap1 fop df-op r-f ) DAEZBEZFAEZBELNBDFAGHHABDIMABDJC
-      KK $.
+    eqq $p |- V/ [ [ Q. A ] B ] . $=
+      ( feq fap fq df-eq r-ap1 fop df-op r-f ) EAFZBFZGAFZBFCMOCBEGCACHIIABEJNC
+      ABCEKDLL $.
       $( [13-May-2017] $)
   $}
 
@@ -378,28 +468,28 @@ $)
   fin  $a wff -> $.
 
   ${
-    df-bi.1 $e |- B : _o $.
+    df-bi.1 $e |- V/ B : _o $.
     $( Define logical equivalence as equality of truth values. 
        Term ` B ` must be a truth value, and term ` A ` can be inferred to be.
        $)
-    df-bi $a |- [ [ A == B ] = [ A = B ] ] . $.
+    df-bi $a |- V/ [ [ A == B ] = [ A = B ] ] . $.
   $}  
 
   $( Define truth. $)
-  df-t $a |- [ T. = [ Q. = Q. ] ] . $.
+  df-t $a |- V/ [ T. = [ Q. = Q. ] ] . $.
 
   $( Define falsehood. $)
-  df-f $a |- [ F. = [ [ L^ x T. ] = [ L^ x x ] ] ] . $.
+  df-f $a |- V/ [ F. = [ [ L^ x T. ] = [ L^ x x ] ] ] . $.
 
   $( Define negation. $)
-  df-neg $a |- [ ~ = [ Q. F. ] ] . $.
+  df-neg $a |- V/ [ ~ = [ Q. F. ] ] . $.
 
   $( Define conjunction. $)
-  df-an $a |- [ /\ = [ L^ x [ L^ y 
+  df-an $a |- V/ [ /\ = [ L^ x [ L^ y 
     [ [ L^ g [ [ g T. ] T. ] ] = [ L^ g [ [ g x ] y ] ] ] ] ] ] . $.
 
   $( Define inference. $)
-  df-in $a |- [ -> = [ L^ x [ L^ y [ x = [ x /\ y ] ] ] ] ] . $.
+  df-in $a |- V/ [ -> = [ L^ x [ L^ y [ x = [ x /\ y ] ] ] ] ] . $.
 
 $(
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -415,14 +505,12 @@ $)
   fex  $a wff [ E. x A ] $.
 
   ${
-    df-al.1 $e |- A : _o $.
+    df-al.1 $e |- x : alpha V/ A : _o $.
     $( Define universal quantifier $)
-    df-al $a |- [ [ A. x A ] = [ [ L^ x T. ] = [ L^ x A ] ] ] . $. 
-  $}
-  ${
-    df-ex.1 $e |- A : _o $.
+    df-al $a |- V/ [ [ A. x A ] = [ [ L^ x T. ] = [ L^ x A ] ] ] . $. 
+
     $( Define existential quantifier $)
-    df-ex $a |- [ [ E. x A ] = [ ~ [ A. x [ ~ A ] ] ] ] . $. 
+    df-ex $a |- V/ [ [ E. x A ] = [ ~ [ A. x [ ~ A ] ] ] ] . $. 
   $}
 
 $(
@@ -432,71 +520,84 @@ $(
 $)
 
   ${
-    weq.1 $e |- A : alpha $.
-    weq.2 $e |- B : alpha $.
+    weq.1 $e |- V/ A : alpha $.
+    weq.2 $e |- V/ B : alpha $.
     $( ` [ A = B ] ` is a truth value. $)
-    weq $p |- [ A = B ] : _o $=
-      ( to feq fop fap df-op fq df-eq r-ap1 wqeq r-t ) FBCGHGBIZCIZBCGJFQKBIZCI
-      PRCGKBLMMABCDENOO $.
+    weq $p |- V/ [ A = B ] : _o $=
+      ( to feq tab fq df-eq wq r-t wop ) AAGBCDHEFGAIAIHJDDKADLMN $.
   $}
   
   ${
-    wbi.1 $e |- B : _o $.
-    wbi.2 $e |- A : _o $.
+    wbi.1 $e |- V/ B : _o $.
+    wbi.2 $e |- V/ A : _o $.
     $( ` [ A == B ] ` is a truth value. $)
-    wbi $p |- [ A == B ] : _o $=
-      ( to fbi fop feq df-bi eqq weq r-t ) EABFGZABHGZMNABCIJEABDCKL $.
+    wbi $p |- V/ [ A == B ] : _o $=
+      ( to fbi fop feq df-bi eqq weq r-t ) FABGHZABIHZCNOCABCDJKFABCEDLM $.
   $}
 
   $( ` T. ` is a truth value. $)
-  wt $p |- T. : _o $=
-    ( to ft fq feq fop df-t eqq tab wq weq r-t ) ABCCDEZBLFGAAHAHCCAIZMJK $.
+  wt $p |- V/ T. : _o $=
+    ( to ft fq feq fop df-t eqq tab wq weq r-t ) BCDDEFZACMAAGHBBIBIDDABAJZNKL
+    $.
 
-  $( ` F. ` is a truth value. $)
-  wf $p |- F. : _o $=
-    ( vx to ff ft fab fx feq fop df-f eqq tab wt xa wab weq r-t ) BCDAEZAFZAEZG
-    HZCTAIJBBKQSBBDALBAMZNBBRAUAUANOP $.
+  ${
+    $d x V/ $.
+	  $( ` F. ` is a truth value. $)
+	  wf $p |- V/ F. : _o $=
+	    ( vx to ff ft fab fx feq fop df-f eqq tab wt dat wab wxid weq r-t ) CDEBF
+	    ZBGZBFZHIZADUBABAJKCCLSUAACCEBACCEBAAMNOCCTBACBAPOQR $.
+  $}
 
   $( The negation's type is a function from truth value to truth value $)
-  wn $p |- ~ : ( _o _o ) $=
-    ( to tab fn fq ff fap df-neg eqq wq wf wap r-t ) AABZCDEFZCNGHMADEAIJKL $.
-
-  $( Type of the conjunction operator $)
-  wan $p |- /\ : ( ( _o _o ) _o ) $=
-    ( vg vx vy to tab fan fx ft fap fab feq fop df-an eqq xa wt wap wab weq r-t
-    ) DDEZDEZFAGZHIZHIZAJZUCBGZIZCGZIZAJZKLZCJZBJZFUNBCAMNUADUMBDDULCDUBEUFUKDU
-    BUEADDUDHUADUCHUBAOZPQPQUORDUBUJADDUHUIUADUCUGUODBOZQDCOZQUORSUQRUPRT $.
-
-  $( Type of tthe logical inference operator $)
-  win $p |- -> : ( ( _o _o ) _o ) $=
-    ( vx vy to tab fin fx fan fop feq fab df-in eqq xa wan wop weq wab r-t ) CC
-    DZCDEAFZTBFZGHZIHZBJZAJZEUEABKLSCUDACCUCBCTUBCAMZCCCTUAGUFCBMZNOPUGQUFQR $.
+  wn $p |- V/ ~ : ( _o _o ) $=
+    ( to tab fn fq ff fap df-neg eqq wq wf wap r-t ) BBCZDEFGZADOAAHINBEFABAJAK
+    LM $.
 
   ${
-    wneg.1 $e |- A : _o $.
+    $d x y g V/ $.
+	  $( Type of the conjunction operator $)
+	  wan $p |- V/ /\ : ( ( _o _o ) _o ) $=
+	    ( vg vx vy to tab fan fx ft fap fab feq fop df-an eqq dx wxid wap wab dat
+     wt ds3t ds2t weq r-t ) EEFZEFZGBHZIJZIJZBKZUHCHZJZDHZJZBKZLMZDKZCKZAGUSACD
+     BANOUFEURCAEEUQDECAPZEUGFZUKUPEDUTPZVAEUKDUTVAEUKCAEUGUJBAEEUIIUGBAPZUFEUH
+     IVCUGBAQZVCUAZRVERSTTEUGUOBVBEUGEUODBUTEEUGEUODCBAEEUMUNEDECVCPZPUFEUMDVFU
+     FEUHULVFUGEUHCVCVDTECVCQRTEDVFQRUBUCSUDSSUE $.
+  $}
+
+  ${
+    $d x y V/ $.
+	  $( Type of tthe logical inference operator $)
+	  win $p |- V/ -> : ( ( _o _o ) _o ) $=
+	    ( vx vy to tab fin fx fan fop feq fab df-in eqq dx wxid dat wan wop weq 
+	    wab r-t ) DDEZDEFBGZUCCGZHIZJIZCKZBKZAFUHABCALMUBDUGBADDUFCDBANZDUCUEDCUI
+	    NZDDUCCUIDBAOPZDDDUCUDUJHUKDCUIOUJQRSTTUA $.
+  $}
+
+  ${
+    wneg.1 $e |- V/ A : _o $.
     $( The negation of a truth value is a truth value. $)
-    wneg $p |- [ ~ A ] : _o $=
-      ( to fn wn wap ) CCDAEBF $.
+    wneg $p |- V/ [ ~ A ] : _o $=
+      ( to fn wn wap ) DDEABBFCG $.
   $}
 
   ${
-    wim.1 $e |- A : _o $.
-    wim.2 $e |- B : _o $.
+    wim.1 $e |- V/ A : _o $.
+    wim.2 $e |- V/ B : _o $.
     $( An inference is a truth value. $)
-    wim $p |- [ A -> B ] : _o $=
-      ( to fin win wop ) EEEABFCDGH $.
+    wim $p |- V/ [ A -> B ] : _o $=
+      ( to fin win wop ) FFFABCGDECHI $.
   $}
 
   ${
-    wal.1 $e |- A : _o $.
+    wal.1 $e |- x : alpha V/ A : _o $.
     $( An universal quantifier is a truth value. $)
-    wal $p |- [ A. x A ] : _o $=
-      ( ta to fal ft fab feq fop df-al eqq tab wt xa wab weq r-t ) EABFZGBHZABH
-      ZIJZSUBABCKLEDMTUAEDGBNDBOZPEDABCUCPQR $.
+    wal $p |- V/ [ A. x A ] : _o $=
+      ( to fal ft fab feq fop df-al eqq tab dx wt wab weq r-t ) FBCGZHCIZBCIZJK
+      ZDTUCDABCDELMFANUAUBDFAHCDACDOPQFABCDEQRS $.
     $( An existential quantifier is a truth value. $)
-    wex $p |- [ E. x A ] : _o $=
-      ( to fex fn fap fal df-ex eqq wneg wal r-t ) DABEZFFAGZBHZGZNQABCIJPOBACK
-      LKM $.
+    wex $p |- V/ [ E. x A ] : _o $=
+      ( to fex fn fap fal df-ex eqq dx wneg wal r-t ) FBCGZHHBIZCJZIZDQTDABCDEK
+      LSDARCDBACDMENONP $.
   $}
 
 $(
@@ -512,71 +613,71 @@ $)
   ffg $f wff G $.
 
 	${
-	  ax-1.1 $e |- G : ( _o _o ) $.
-    ax-1.2 $e |- x : _o $.
+	  ax-1.1 $e |- V/ G : ( _o _o ) $.
+    ax-1.2 $e |- V/ x : _o $.
     $( Axiom 1 expresses the idea that ` T. ` and ` F. ` are the only boolean 
-       values. $)
-	  ax-1 $a |- [ [ [ G T. ] /\ [ G F. ] ] = [ A. x [ G x ] ] ] . $.
+       values. (1.) $)
+	  ax-1 $a |- V/ [ [ [ G T. ] /\ [ G F. ] ] = [ A. x [ G x ] ] ] . $.
 	$}
 
   ${
-    ax-2.1 $e |- A : alpha $.
-    ax-2.2 $e |- B : alpha $.
-    ax-2.3 $e |- C : ( _o alpha ) $.
+    ax-2.1 $e |- V/ A : alpha $.
+    ax-2.2 $e |- V/ B : alpha $.
+    ax-2.3 $e |- V/ C : ( _o alpha ) $.
     $( Axiom 2 expresses the idea that applying the same function on two equal
-       values yields to the same value. $)
-    ax-2 $a |- [ [ A = B ] -> [ [ C A ] = [ C B ] ] ] . $.
+       values yields to the same value. (2.) $)
+    ax-2 $a |- V/ [ [ A = B ] -> [ [ C A ] = [ C B ] ] ] . $.
   $}
 
   ${
-    ax-3.1 $e |- F : ( alpha beta ) $.
-    ax-3.2 $e |- G : ( alpha beta ) $.
-    ax-3.3 $e |- x : beta $.
-    $( Axiom 3 $)
-    ax-3 $a |- [ [ F = G ] = [ A. x [ [ F x ] = [ G x ] ] ] ] . $.
+    ax-3.1 $e |- x : beta V/ F : ( alpha beta ) $.
+    ax-3.2 $e |- x : beta V/ G : ( alpha beta ) $.
+    $( Axiom 3 (3.) $)
+    ax-3 $a |- V/ [ [ F = G ] = [ A. x [ [ F x ] = [ G x ] ] ] ] . $.
   $}
 
+  $( Axiom 4 is here broken down into 5 axioms like in Andrews [2002]. $)
   ${
     $d x B $.
-    ax-4c.1 $e |- A : alpha $.
-    ax-4c.2 $e |- x : alpha $.
-    $( Axiom 4 for formula where x is free in ` B ` note that we make use of
-       Metamath's $) 
-    ax-4c $a |- [ [ [ L^ x B ] A ] = B ] . $.
+    ax-4c.1 $e |- V/ A : alpha $.
+    $( Axiom 4.1 for formula where x is not free in ` B ` note that we make use 
+       of Metamath's distinct variable statement. We dropped the hypothesis
+       that ` B ` is of a type ` beta ` if ` x ` is of type ` alpha ` , since
+       this can anyway always be obtained by ~ dat . (4_1.) $) 
+    ax-4c $a |- V/ [ [ [ L^ x B ] A ] = B ] . $.
   $}
 
-  ${
-    ax-4i.1 $e |- A : alpha $.
-    ax-4i.2 $e |- x : alpha $.
-    ax-4i $a |- [ [ [ L^ x x ] A ] = A ] . $.
-  $}
+  $( Axiom 4.2 $)
+  ax-4i $a |- V/ [ [ [ L^ x x ] A ] = A ] . $.
 
   ${
-    ax-4ap.1 $e |- A : alpha $.
-    ax-4ap.2 $e |- B : ( beta gamma ) $.
-    ax-4ap.3 $e |- C : gamma $.
-    ax-4ap.4 $e |- x : alpha $.
-    ax-4ap $a |- 
+    ax-4ap.1 $e |- V/ A : alpha $.
+    ax-4ap.2 $e |- x : alpha V/ B : ( beta gamma ) $.
+    ax-4ap.3 $e |- x : alpha V/ C : gamma $.
+    $( Axiom 4.3 $)
+    ax-4ap $a |- V/ 
       [ [ [ L^ x [ B C ] ] A ] = [ [ [ L^ x B ] A ] [ [ L^ x C ] A ] ] ] . $.
   $}
 
   ${
     $d x y $. $d y A $.
-    ax-4ab.1 $e |- A : alpha $.
-    ax-4ab.2 $e |- x : alpha $.
-    $( Axiom 4 for Lambda Abstractions. Note the the distinct variable 
+    ax-4ab.1 $e |- V/ A : alpha $.
+    ax-4ab.2 $e |- x : alpha y : gamma V/ B : delta $.
+    $( Axiom 4.4 for Lambda Abstractions. Note the the distinct variable 
        requirements $)
-    ax-4ab $a |- [ [ [ L^ x [ L^ y B ] ] A ] =  [ L^ y [ [ L^ x B ] A ] ] ] . $.
+    ax-4ab $a |- V/ [ [ [ L^ x [ L^ y B ] ] A ] =  [ L^ y [ [ L^ x B ] A ] ] ] 
+      . $.
   $}
 
   ${
-    ax-4ab2.1 $e |- A : alpha $.
-    ax-4ab2.2 $e |- B : beta $.
-    ax-4ab2.3 $e |- x : alpha $.
-    ax-4ab2 $a |- [ [ [ L^ x [ L^ x B ] ] A ] = [ [ L^ x B ] A ] ] . $.
+    ax-4ab2.1 $e |- V/ A : alpha $.
+    ax-4ab2.2 $e |- x : alpha V/ B : delta $.
+    $( Axiom 4.5 for Lambda Abstractions. $)
+    ax-4ab2 $a |- V/ [ [ [ L^ x [ L^ x B ] ] A ] = [ L^ x B ] ] . $.
   $}
 
-  ax-5 $a |- [ [ I. [ Q. A ] ] = A ] . $.
+  $( Axiom 5. Axiom of Descriptions $)
+  ax-5 $a |- V/ [ [ I. [ Q. A ] ] = A ] . $.
 
 $(
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
@@ -593,62 +694,46 @@ $)
   $( We prove theorem ~ qeq which is useful to eliminate ` Q. ` forms of 
      equality and replace them by the abbreviation ` [ A = B ] ` . $)
 
-  ${
-    qid.1 $e |- A : alpha $.
-    $( Identical formula are equal - ` Q. ` form , similar to ~ eqid X5200 $)
-    qid $p |- [ [ Q. A ] A ] . $=
-      ( vx fq fx fab fap xa ax-4i eqq r-ap2 r-ap1 r-f ) EDFDGBHZHZBHEBHZBHPQBOB
-      EOBABDCADIJKZLMRN $.
-  $}
+  $( Identical formula are equal - ` Q. ` form , similar to ~ eqid X5200 $)
+  qid $p |- V/ [ [ Q. A ] A ] . $=
+    ( vx fq fx fab fap ax-4i eqq r-ap2 r-ap1 r-f ) DCECFAGZGZAGDAGZAGBNOBAMABDM
+    ABACBHIZJKPL $.
 
   ${
-    qr.1 $e |- A : alpha $.
-    ${
-      qr.2 $e |- [ [ Q. A ] B ] . $.
-      $( Swap terms in the ` Q. ` form of an equality $)
-      qr $p |- [ [ Q. B ] A ] . $=
-        ( fq fap r-ap2 r-ap1 qid r-f ) FBGZBGFCGZBGLMBBCFEHIABDJK $.
+    qr.1 $e |- V/ [ [ Q. A ] B ] . $.
+    $( Swap terms in the ` Q. ` form of an equality $)
+    qr $p |- V/ [ [ Q. B ] A ] . $=
+      ( fq fap r-ap2 r-ap1 qid r-f ) EAFZAFEBFZAFCKLCAABCEDGHACIJ $.
 
-      $( Infer equality from its ` Q. ` form $)
-      qeq $p |- [ A = B ] . $=
-        ( feq fap fop to qr r-t weq df-op fq tab df-eq wq r-ap1 r-f ) FBGZCGZBC
-        FHZIUBUAABCDACBABCDEJDKLBCFMJNBGZCGUAUCTCNFBIAOAOZFNUDFNPAQKPJRRESS $.
-    $}
+    $( Infer equality from its ` Q. ` form $)
+    qeq $p |- V/ [ A = B ] . $=
+      ( feq fap fop df-op qr fq df-eq r-ap1 r-f ) EAFZBFZABEGZCPOCABCEHIJAFZBFZ
+      OCORCNQCBEJCACKLLIDMM $.
   $}
   
   $( We can now redefine operation, using an equality form rather than a ` Q. ` 
      form. $)
-  ${
-    dfop.1 $e |- A : alpha $.
-    dfop.2 $e |- B : beta $.
-    dfop.3 $e |- R : ( ( gamma beta ) alpha ) $.
-    $( Define an operation using equality. $)
-    dfop $p |- [ [ A R B ] = [ [ R A ] B ] ] . $=
-      ( fop fap wop df-op qeq ) CDEFJFDKEKABCDEFGHILDEFMN $.
-  $}
+  $( Define an operation using equality. $)
+  dfop $p |- V/ [ [ A R B ] = [ [ R A ] B ] ] . $=
+    ( fop fap df-op qeq ) ABDEDAFBFCABCDGH $.
+
+  $( Identical formula are equal. (5200) $)
+  eqid $p |- V/ [ A = A ] . $=
+    ( qid qeq ) AABABCD $.
 
   ${
-    eqid.a $e |- A : alpha $.
-    $( Identical formula are equal. (5200) $)
-    eqid $p |- [ A = A ] . $=
-      ( qid qeq ) ABBCABCDE $.
-  $}
-
-  ${
-    eqr.1 $e |- A : alpha $.
-    eqr.2 $e |- [ A = B ] . $.
+    eqr.1 $e |- V/ [ A = B ] . $.
     $( Infer equality with swapped terms (5201.2) $)
-    eqr $p |- [ B = A ] . $=
-      ( eqq qr r-t qeq ) ACBACBABCDBCEFGZDHJI $.
+    eqr $p |- V/ [ B = A ] . $=
+      ( eqq qr qeq ) BACABCABCDEFG $.
   $}
 
   ${
-    eqtr.1 $e |- A : alpha $.
-    eqtr.2 $e |- [ A = B ] . $.
-    eqtr.3 $e |- [ B = C ] . $.
+    eqtr.1 $e |- V/ [ A = B ] . $.
+    eqtr.2 $e |- V/ [ B = C ] . $.
     $( Transitivity of the identity. (5201.3) $)
-    eqtr $p |- [ A = C ] . $=
-      ( fq fap eqq r-ap2 r-f qeq ) ABDEHBIZCINDICDNCDGJKBCFJLM $.
+    eqtr $p |- V/ [ A = C ] . $=
+      ( fq fap eqq r-ap2 r-f qeq ) ADCGAHZBHMDHCBDCMBDCFIJABCEIKL $.
   $}
 
 $(
@@ -663,64 +748,57 @@ $)
      formulas. $)
 
   ${
-    teq.1 $e |- B : alpha $.
-    teq.2 $e |- [ A = B ] . $.
+    teq.1 $e |- V/ B : alpha $.
+    teq.2 $e |- V/ [ A = B ] . $.
     $( Infer type from equality, similar to ~ r-t $)
-    teq $p |- A : alpha $=
-      ( eqq r-t ) ABCBCEFDG $.
+    teq $p |- V/ A : alpha $=
+      ( eqq r-t ) ABCDBCDFGEH $.
   $}
 
   ${
-    teqr.1 $e |- A : alpha $.
-    teqr.2 $e |- [ A = B ] . $.
+    teqr.1 $e |- V/ A : alpha $.
+    teqr.2 $e |- V/ [ A = B ] . $.
     $( Infer type from equality, revere form. $)
-    teqr $p |- B : alpha $=
-      ( eqr teq ) ACBDABCDEFG $.
+    teqr $p |- V/ B : alpha $=
+      ( eqr teq ) ACBDEBCDFGH $.
   $}
 
   ${
-    mpeq.1 $e |- A . $.
-    mpeq.2 $e |- [ A = B ] . $.
+    mpeq.1 $e |- V/ A . $.
+    mpeq.2 $e |- V/ [ A = B ] . $.
     $( Modus Ponens based on equality. $)
-    mpeq $p |- B . $=
-      ( eqq r-f ) ABABDECF $.
+    mpeq $p |- V/ B . $=
+      ( eqq r-f ) ABCABCEFDG $.
   $}
 
   ${
-    apeq12.1 $e |- A : ( alpha beta ) $.
-    apeq12.2 $e |- C : beta $.
-    apeq12.3 $e |- [ A = B ] . $.
-    apeq12.4 $e |- [ C = D ] . $.
+    apeq12.1 $e |- V/ [ A = B ] . $.
+    apeq12.2 $e |- V/ [ C = D ] . $.
     $( Equality building rule for function application. (5201.4) $)
-    apeq12 $p |- [ [ A C ] = [ B D ] ] . $=
-      ( fap wap fq eqq r-ap1 r-ap2 r-f qeq ) ACEKZDFKZABCEGHLMSKZCFKZKUATKUBT
-      UACDFCDINOPEFCEFJNPQR $.
+    apeq12 $p |- V/ [ [ A C ] = [ B D ] ] . $=
+      ( fap fq eqq r-ap1 r-ap2 r-f qeq ) ADHZBEHZCIOHZAEHZHQPHCRPCQABCEABCFJKLD
+      ECADECGJLMN $.
   $}
 
   ${
-    apeq1.1 $e |- A : ( alpha beta ) $.
-    apeq1.2 $e |- C : beta $.
-    apeq1.3 $e |- [ A = B ] . $.
+    apeq1.1 $e |- V/ [ A = B ] . $.
     $( Equality building rule for function application. (5201.5) $)
-    apeq1 $p |- [ [ A C ] = [ B C ] ] . $=
-      ( eqid apeq12 ) ABCDEEFGHBEGIJ $.
+    apeq1 $p |- V/ [ [ A C ] = [ B C ] ] . $=
+      ( eqid apeq12 ) ABCDDEDCFG $.
   $}
 
   ${
-    apeq2.1 $e |- A : alpha $.
-    apeq2.2 $e |- C : ( beta alpha ) $.
-    apeq2.3 $e |- [ A = B ] . $.
+    apeq2.1 $e |- V/ [ A = B ] . $.
     $( Equality building rule for function application. (5201.6) $)
-    apeq2 $p |- [ [ C A ] = [ C B ] ] . $=
-      ( tab eqid apeq12 ) BAEECDGFBAIEGJHK $.
+    apeq2 $p |- V/ [ [ C A ] = [ C B ] ] . $=
+      ( eqid apeq12 ) DDCABDCFEG $.
   $}
 
   ${
-    abeq.1 $e |- A : alpha $.
-    abeq.2 $e |- [ A = B ] . $.
+    abeq.1 $e |- x : alpha V/ [ A = B ] . $.
     $( Equality building rule for function abstraction. $)
-    abeq $p |- [ [ L^ x A ] = [ L^ x B ] ] . $=
-      ( tb tab fab xa wab eqq r-ab qeq ) AGHBDICDIAGBDEGDJKBCDBCFLMN $.
+    abeq $p |- V/ [ [ L^ x A ] = [ L^ x B ] ] . $=
+      ( fab dx eqq r-ab qeq ) BDGCDGEABCDEBCADEHFIJK $.
   $}
 
 $(
@@ -733,117 +811,110 @@ $)
      forms $)
 
   ${
-    opeq12.1 $e |- A : alpha $.
-    opeq12.2 $e |- C : beta $.
-    opeq12.3 $e |- R : ( ( gamma beta ) alpha ) $.
-    obeq12.4 $e |- [ A = B ] . $.
-    opeq12.5 $e |- [ C = D ] . $.
+    opeq123.1 $e |- V/ [ A = B ] . $.
+    opeq123.2 $e |- V/ [ R = S ] . $.
+    opeq123.3 $e |- V/ [ C = D ] . $.
     $( Equality building rule for operation $)
-    opeq12 $p |- [ [ A R C ] = [ B R D ] ] . $=
-      ( fop fap wop dfop wap eqq qr tab apeq2 apeq12 r-t eqr eqtr ) CDFHNHDOZFO
-      ZEGHNZABCDFHIJKPABCDFHIJKQCUHHEOZGOZUICBUGFCBUAZAHDKIRZJRCBUGUJFGUMJAULDE
-      HIKLUBMUCCUIUKABCEGHAEDADEIDELSTIUDZBGFBFGJFGMSTJUDZKPABCEGHUNUOKQUEUFUF
-      $.
+    opeq123 $p |- V/ [ [ A R C ] = [ B S D ] ] . $=
+      ( fop fap dfop apeq12 eqr eqtr ) ADFKFALZDLZCBEGKZADCFMSRCSGBLZELZCRBECGM
+      RUACQTCDEFGCABIHNJNOPOP $.
   $}
 
   ${
-    opeq1.1 $e |- A : alpha $.
-    opeq1.2 $e |- C : beta $.
-    opeq1.3 $e |- R : ( ( gamma beta ) alpha ) $.
-    obeq1.4 $e |- [ A = B ] . $.
+    opeq13.1 $e |- V/ [ A = B ] . $.
+    opeq13.2 $e |- V/ [ C = D ] . $.
+    $( Equality building rule for operation $)
+    opeq13 $p |- V/ [ [ A R C ] = [ B R D ] ] . $=
+      ( eqid opeq123 ) ABCDEFFGFCIHJ $.
+  $}
+
+  ${
+    obeq1.1 $e |- V/ [ A = B ] . $.
     $( Equality building rule for operation. 
        (This proof could be shortened using ~ opeq12 ) $)
-    opeq1 $p |- [ [ A R C ] = [ B R C ] ] . $=
-      ( eqid opeq12 ) ABCDEFFGHIJKBFILM $.
+    opeq1 $p |- V/ [ [ A R C ] = [ B R C ] ] . $=
+      ( eqid opeq13 ) ABCDDEFDCGH $.
   $}
 
   ${
-    opeq2.1 $e |- A : alpha $.
-    opeq2.2 $e |- C : beta $.
-    opeq2.3 $e |- R : ( ( gamma alpha ) beta ) $.
-    obeq2.4 $e |- [ A = B ] . $.
+    obeq3.1 $e |- V/ [ A = B ] . $.
     $( Equality building rule for operation $)
-    opeq2 $p |- [ [ C R A ] = [ C R B ] ] . $=
-      ( eqid opeq12 ) BACFFDEGIHJBFILKM $.
+    opeq3 $p |- V/ [ [ C R A ] = [ C R B ] ] . $=
+      ( eqid opeq13 ) DDCABEDCGFH $.
   $}
 
   ${
-    eqeq12.1 $e |- A : alpha $.
-    eqeq12.2 $e |- C : alpha $.
-    eqeq12.3 $e |- [ A = B ] . $.
-    eqeq12.4 $e |- [ C = D ] . $.
+    eqeq12.1 $e |- V/ [ A = B ] . $.
+    eqeq12.2 $e |- V/ [ C = D ] . $.
     $( Prove an equality of two equalities. $)
-    eqeq12 $p |- [ [ A = C ] = [ B = D ] ] . $=
-      ( to feq tab fq df-eq wq r-t opeq12 ) AAJBCDEKFGJALALKMNAOPHIQ $.
+    eqeq12 $p |- V/ [ [ A = C ] = [ B = D ] ] . $=
+      ( feq opeq13 ) ABCDEHFGI $.
   $}
 
   ${
-    eqeq1.1 $e |- A : alpha $.
-    eqeq1.2 $e |- C : alpha $.
-    eqeq1.3 $e |- [ A = B ] . $.
+    eqeq1.1 $e |- V/ [ A = B ] . $.
     $( Infer an equality from an equality of the first terms. $)
-    eqeq1 $p |- [ [ A = C ] = [ B = C ] ] . $=
-      ( eqid eqeq12 ) ABCDDEFGADFHI $.
+    eqeq1 $p |- V/ [ [ A = C ] = [ B = C ] ] . $=
+      ( eqid eqeq12 ) ABCDDEDCFG $.
   $}
 
   ${
-    eqeq2.1 $e |- A : alpha $.
-    eqeq2.2 $e |- C : alpha $.
-    eqeq2.3 $e |- [ A = B ] . $.
+    eqeq2.1 $e |- V/ [ A = B ] . $.
     $( Infer an equality from an equality of the second terms. $)
-    eqeq2 $p |- [ [ C = A ] = [ C = B ] ] . $=
-      ( eqid eqeq12 ) ADDBCFEADFHGI $.
+    eqeq2 $p |- V/ [ [ C = A ] = [ C = B ] ] . $=
+      ( eqid eqeq12 ) DDCABDCFEG $.
   $}
 
   ${    
-    aleq.1 $e |- A : _o $.
-    aleq.2 $e |- [ A = B ] . $.
+    aleq.1 $e |- x : alpha V/ A : _o $.
+    aleq.2 $e |- x : alpha V/ [ A = B ] . $.
     $( Equality building rule for universal quantifier $)
-    aleq $p |- [ [ A. x A ] = [ A. x B ] ] . $=
-      ( ta to fal ft fab feq fop wal df-al eqq r-t tab wab eqr eqtr qr xa wt fq
-      df-eq wq abeq opeq2 ) GACHICJZACJZKLZBCHZACDMACDNGULUKBCGBAGABDABEOUADPZM
-      ZGULUIBCJZKLUKUNBCUMNGFQZUPGUOUJUIKGFBCUMFCUBZRGFICUCUQRGUPQUPQKUDUEUPUFP
-      GBACUMGABDESUGUHTST $.
+    aleq $p |- V/ [ [ A. x A ] = [ A. x B ] ] . $=
+      ( fal ft fab feq fop df-al to dx eqq qr r-t eqr eqtr abeq opeq3 ) BDHIDJZ
+      BDJZKLZECDHZABDEFMUFUEEUFUCCDJZKLEUEACDENCBADEOZBCUHBCUHGPQFRMUGUDEUCKACB
+      DEBCUHGSUAUBTST $.
 
     $( Equality building rule for universal quantifier $)
-    exeq $p |- [ [ E. x A ] = [ E. x B ] ] . $=
-      ( to fex fn fap fal wex df-ex wneg wal wn apeq2 aleq eqtr eqr teq ) FACGZ
-      HHBIZCJZIZBCGZACDKZFUAHHAIZCJZIUDUFACDLFFUHUCHUGCADMZNOUGUBCUIFFABHDOEPQP
-      RFUEUDBCFBADFABDESTZKBCUJLSR $.
+    exeq $p |- V/ [ [ E. x A ] = [ E. x B ] ] . $=
+      ( fex fn fap fal df-ex to dx wn wap apeq2 aleq teqr eqtr eqr ) BDHIIBJZDK
+      ZJZECDHZABDEFLUDIICJZDKZJZEUEUCUGEIAUBUFDEMMIBADENZUIOFPBCUIIGQRQUEUHEACD
+      EMBCUIFGSLUATT $.
   $}
 
   ${
-		dfeq.1 $e |- A : alpha $.
-		dfeq.2 $e |- B : alpha $.
-	  $( A definition of equality. $)
-	  dfeq $p |- [ [ A = B ] == [ [ Q. A ] B ] ] . $=
-	    ( feq fop fq fap fbi to weq tab df-eq wq r-t dfop wap qeq apeq1 eqtr wqeq 
-	    wop wbi df-bi eqr mpeq ) BCFGZHBIZCIZFGZUHUJJGZKUHFBIZCIUJABCDELAAKBCFDEK
-	    AMZAMZFHNAOPZQKAUMUICUNAFBUPDREUNAFHBUPDUOFHUPNSTTUAKULUKUHUJABCDEUBZAAKB
-	    CFDEUPUCUDUHUJUQUEUFUG $.
+    dfeq.1 $e |- V/ A : alpha $.
+    dfeq.2 $e |- V/ B : alpha $.
+    $( A definition of equality. $)
+    dfeq $p |- V/ [ [ A = B ] == [ [ Q. A ] B ] ] . $=
+      ( feq fop fq fap fbi dfop df-eq qeq apeq1 eqtr to tab wq wap df-bi mpeq
+      eqr ) BCGHZIBJZCJZGHZUDUFKHZDUDGBJZCJDUFBCDGLUIUEDCGIDBGIDDMNOOPUHUGDUDUF
+      DQAUECDQARAIBDADSETFTUAUCUB $.
   $}
 
   ${
-    obab.1 $e |- A : alpha $.
-    obab.2 $e |- B : beta $.
-    obab.3 $e |- C : gamma $.
-    obab.4 $e |- R : ( ( delta gamma ) beta ) $.
-    obab.5 $e |- x : alpha $.
+    opab.1 $e |- V/ A : alpha $.
+    opab.2 $e |- x : alpha V/ B : beta $.
+    opab.3 $e |- x : alpha V/ C : gamma $.
+    opab.4 $e |- x : alpha V/ R : ( ( delta gamma ) beta ) $.
     $( A theorem similar to the ax-4 series, for operation $)
-    obab $p |- [ [ [ L^ x [ B R C ] ] A ] = 
+    opab $p |- V/ [ [ [ L^ x [ B R C ] ] A ] = 
       [ [ [ L^ x B ] A ] [ [ L^ x R ] A ] [ [ L^ x C ] A ] ] ] . $=
-      ? $.
+      ( fop fab fap dfop apeq1 eqtr dx abeq tab wap ax-4ap eqr ) FIJOZGPZEQZJGP
+      EQZFGPEQZQZIGPEQZQZHUKUMUJOZUIJFQZGPEQZUMQZHUNUIUPIQZGPZEQHURUHUTHEAUGUSG
+      HFIAGHUAZJRUBSADCEUPGHIKDCUCZBJFVANLUDMUETUQULHUMAVBBEJGHFKNLUESTUOUNHUKU
+      MHUJRUFT $.
   $}
 
   ${
-    eqab.1 $e |- A : alpha $.
-    eqab.2 $e |- B : beta $.
-    eqab.3 $e |- C : beta $.
-    eqab.4 $e |- x : alpha $.
-    $( A theorem similar to the ax-4 series, for equality $)
-    eqab $p |- [ [ [ L^ x [ B = C ] ] A ] = 
+    eqab.1 $e |- V/ A : alpha $.
+    eqab.2 $e |- x : alpha V/ B : beta $.
+    eqab.3 $e |- x : alpha V/ C : beta $.
+     $( A theorem similar to the ax-4 series, for equality $)
+    eqab $p |- V/ [ [ [ L^ x [ B = C ] ] A ] = 
       [ [ [ L^ x B ] A ] = [ [ L^ x C ] A ] ] ] . $=
-      ? $.
+      ( feq fop fab fap to tab fq df-eq wq eqid r-t dat opab ax-4c opeq123 eqtr
+      ) DGKLEMCNDEMCNZGEMCNZKEMCNZLFUGUHKLABBOCDEFGKHIJOBPBPZAKEFUJKQFFRBFSUAUB
+      UCUGUGFUHUHUIKUGFTACKEFHUDUHFTUEUF $.
   $}
 
 $(
@@ -853,34 +924,45 @@ $(
 $)
 
   ${
-    bieq.1 $e |- B : _o $.
-    bieq.2 $e |- [ A == B ] . $.
+    bieq.1 $e |- V/ B : _o $.
+    bieq.2 $e |- V/ [ A == B ] . $.
     $( Infer equality from equivalence $)
-    bieq $p |- [ A = B ] . $=
-      ( fbi fop feq df-bi mpeq ) ABEFABGFDABCHI $.
+    bieq $p |- V/ [ A = B ] . $=
+      ( fbi fop feq df-bi mpeq ) ABFGABHGCEABCDIJ $.
   $}
 
   ${
-    mpbi.1 $e |- B : _o $.
-    mpbi.2 $e |- A . $.
-    mpbi.3 $e |- [ A == B ] . $.
+    mpbi.1 $e |- V/ B : _o $.
+    mpbi.2 $e |- V/ A . $.
+    mpbi.3 $e |- V/ [ A == B ] . $.
     $( An inference from a biconditional, related to modus ponens. (5201.1) $)
-    mpbi $p |- B . $=
-      ( bieq mpeq ) ABDABCEFG $.
+    mpbi $p |- V/ B . $=
+      ( bieq mpeq ) ABCEABCDFGH $.
   $}
 
-  ${    
-    albi.1 $e |- A : _o $.
-    albi.2 $e |- [ A == B ] . $.
+  ${
+    eqbi.1 $e |- V/ B : _o $.
+    eqbi.3 $e |- V/ [ A = B ] . $.
+    $( Infer equivalence from equality $)
+    eqbi $p |- V/ [ A == B ] . $=
+      ( feq fop fbi df-bi eqr mpeq ) ABFGZABHGZCEMLCABCDIJK $.
+  $}
+
+  ${
+    $d x A $. $d x B $.
+    albi.1 $e |- V/ B : _o $.
+    albi.2 $e |- V/ [ A == B ] . $.
     $( Equivalence building rule for universal quantifier, derived from 
        ~ aleq $)
-    albi $p |- [ [ A. x A ] == [ A. x B ] ] . $=
-      ? $.
+    albi $p |- V/ [ [ A. x A ] == [ A. x B ] ] . $=
+      ( ta fal to dat wal bieq teq feq fop daf aleq eqbi ) ACHBCHDGBCDIGBCDEJKG
+      ABCDIGACDIABDEABDEFLZMJGABNOCDSPQR $.
 
     $( Equivalence building rule for universal quantifier, derived from
        ~ exeq $)
-    exbi $p |- [ [ E. x A ] == [ E. x B ] ] . $=
-      ? $.
+    exbi $p |- V/ [ [ E. x A ] == [ E. x B ] ] . $=
+      ( ta fex to dat wex bieq teq feq fop daf exeq eqbi ) ACHBCHDGBCDIGBCDEJKG
+      ABCDIGACDIABDEABDEFLZMJGABNOCDSPQR $.
   $}
 
   $( Theorems (5202) ~ (5204) are not proven here, substitution rules will
@@ -893,44 +975,44 @@ $(
 $)
 
   ${
-   $d F x $.
-   dffun.1 $e |- F : ( alpha beta ) $. 
-   $( A definition of a function (5205). Note that ` x ` shall not be free in
+    $d x y F $. $d x y V/ $. $d x beta $.
+    dffun.1 $e |- V/ F : ( alpha beta ) $. 
+    $( A definition of a function (5205). Note that ` x ` shall not be free in
       ` F ` . $)
-   dffun $p |- [ F = [ L^ x [ F x ] ] ] . $=
-     ( vy feq fop fx fap fab tab to fal weq xa ax-3 wap wab eqtr eqid ax-4c eqr
-     ax-4ap ax-4i apeq12 eqeq2 aleq mpeq ) DDGHZDDCIZJZCKZGHZABLZDEUAMUJDFIZJZU
-     QGHZFNZUNUODDEEOABFDDEEBFPZQMUNUSUODUMEABULCABDUKEBCPZRVASZOZMUNUQUMUPJZGH
-     ZFNUSVCABFDUMEVBUTQVEURFAUQVDABDUPEUTRZABUMUPVBUTRZOAVDUQUQVGVFAVDDCKZUPJZ
-     UKCKZUPJZJUQVGBABUPDCUKUTEVAVAUDABVIDVKUPUOBVHUPUOBDCEVASUTRBBVJUPBBUKCVAV
-     ASUTRBUPDCUTVAUBBUPCUTVAUEUFTUGUHTUCTUI $.
+    dffun $p |- V/ [ F = [ L^ x [ F x ] ] ] . $=
+      ( vy feq fop fx fap fab eqid fal dat ax-3 dx wxid wap eqtr tab wab ax-4ap
+      weq ax-4c ax-4i apeq12 opeq3 aleq eqr mpeq ) EEHIZEECJZKZCLZHIZDEDMULEGJZ
+      KZURHIZGNZDUPABGDEEABUAZBEGDFOZVBPUPUTDUPURUOUQKZHIZGNDUTABGDEUOVBVABUOGD
+      ABUNCDABEUMBCDQVABECDFOBCDRSUBOZPBVDUSGDAURVCBGDQZABEUQVFVBBGDRZSABUOUQVF
+      VEVGSUDVCURVFURHVCECLUQKZUMCLUQKZKVFURBABUQECVFUMVGVABECVFVBOBCVFRUCVHEVF
+      VIUQBUQECVFVGUEUQCVFUFUGTUHUITUJTUK $.
   $}
 
   ${
-   dft.1 $e |- A : alpha $.
-	 $( A definition of truth. (5210) $)
-	 dft $p |- [ T. = [ A = A ] ] . $=
-	   ( vx vy to ft fab fap feq fop wt xa wab wap fx tab mpeq weq eqtr ax-4c eqr
-     fal eqid ax-3 df-al ax-4i eqeq12 abeq eqeq2 apeq1 eqab ) FGGDHZBIZBBJKZLFU
-     NGFAUMBFAGDLADMZNZCOZABGDCUPUAUBFUNDPZUSJKZDHZBIZUOURFAUMVABUQCUMEPZEHZUSI
-     ZVEJKZDHZJKZUMVAJKVFDUCZVHVDVDJKVIAAQVDAAVCEAEMZVJNZUDAADVDVDVKVKUPUERVFDA
-     VEVEAAVDUSVKUPOZVLSZUFRFAQVGVAUMFAVFDVMUPNUQFVFUTDVMAVEUSVEUSVLVLAUSEUPVJU
-     GZVNUHUIUJRUKFVBUSDHZBIZVPJKUOFAVABFAUTDAUSUSUPUPSUPNCOAABUSDUSCUPUPUPULAV
-     PBVPBAAVOBAAUSDUPUPNCOZVQABDCUPUGZVRUHTTT $.
+    $d x y V/ $.
+    dft.1 $e |- V/ A : alpha $.
+    $( A definition of truth. (5210) $)
+    dft $p |- V/ [ T. = [ A = A ] ] . $=
+      ( vx vy ft fab fap feq  fop ax-4c eqr fx fal  wxid mpeq ax-4i eqeq12 eqtr
+      eqid tab wab dat ax-3 dx wap weq df-al abeq eqeq2 apeq1 eqab ) GGEHZBIZCB
+      BJKZUOGCABGECDLMUOENZUQJKZEHZBIZCUPUNUSCBUNFNZFHZUQIZVCJKZEHZJKZUNUSJKCVD
+      EOZVFCVBVBJKVGCVBCUAAAECVBVBAAUBAVBECAAVAFCAFCPUCUDZVHUEQAVDECAVCVCAECUFZ
+      AAVBUQVIVHAECPZUGZVKUHUIQVEUSCUNAVDURECVCUQVIVCUQUQFVIRZVLSUJUKQULUTUQEHB
+      IZVMJKCUPAABUQECUQDVJVJUMVMBCVMBBECRZVNSTTT $.
   $}
 
   $( Truth and Truth. (5211) $)
-  tant $p |- [ [ T. /\ T. ] = T. ] . $=
+  tant $p |- V/ [ [ T. /\ T. ] = T. ] . $=
     ? $.
 
   $( Truth holds. (5212) $)
-  truth $p |- T. . $=
+  truth $p |- V/ T. . $=
     ? $.
 
-  imval $p |- [ [ A -> B ] == [ A == [ A /\ B ] ] ] . $=
+  imval $p |- V/ [ [ A -> B ] == [ A == [ A /\ B ] ] ] . $=
     ? $.
 
-  imval2 $p |- [ [ A -> B ] = [ [ ~ A ] \/ B ] ] . $=
+  imval2 $p |- V/ [ [ A -> B ] = [ [ ~ A ] \/ B ] ] . $=
     ? $.
 
 $(
@@ -940,21 +1022,21 @@ $(
 $)
 
   ${
-    exmpbi.1 $e |- A : _o $.
-    exmpbi.2 $e |- [ A == B ] . $.
-    exmpbi.3 $e |- [ E. x A ] . $.
+    exmpbi.1 $e |- V/ A : _o $.
+    exmpbi.2 $e |- V/ [ A == B ] . $.
+    exmpbi.3 $e |- V/ [ E. x A ] . $.
     $( Inference rule for existential unifier $)
-    exmpbi $p |- [ E. x B ] . $=
+    exmpbi $p |- V/ [ E. x B ] . $=
       ? $. 
   $}
 
-	eqcom $p |- [ [ A = B ] -> [ B = A ] ] . $=
+	eqcom $p |- V/ [ [ A = B ] -> [ B = A ] ] . $=
 	  ? $.
 
   ${
-    wiki.1 $e |- [ E. x A ] . $.
-    wiki.2 $e |- [ A -> B ] . $.
+    wiki.1 $e |- V/ [ E. x A ] . $.
+    wiki.2 $e |- V/ [ A -> B ] . $.
     $( Example in wikipedia $)
-    wiki $p |- [ E. x [ A /\ B ] ] . $=
+    wiki $p |- V/ [ E. x [ A /\ B ] ] . $=
       ? $.    
 	$}
