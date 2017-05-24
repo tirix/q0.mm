@@ -299,7 +299,7 @@ $)
 
 $(
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-                           Q0's inference rule 
+                        Q0's inference rule ` R `
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 $)
 
@@ -613,8 +613,7 @@ $)
   ffg $f wff G $.
 
 	${
-	  ax-1.1 $e |- V/ G : ( _o _o ) $.
-    ax-1.2 $e |- V/ x : _o $.
+	  ax-1.1 $e |- x : _o V/ G : ( _o _o ) $.
     $( Axiom 1 expresses the idea that ` T. ` and ` F. ` are the only boolean 
        values. (1.) $)
 	  ax-1 $a |- V/ [ [ [ G T. ] /\ [ G F. ] ] = [ A. x [ G x ] ] ] . $.
@@ -1001,9 +1000,16 @@ $)
       IZVMJKCUPAABUQECUQDVJVJUMVMBCVMBBECRZVNSTTT $.
   $}
 
-  $( Truth and Truth. (5211) $)
-  tant $p |- V/ [ [ T. /\ T. ] = T. ] . $=
-    ? $.
+  ${
+    $d x y V/ $.
+    $( Truth and Truth. (5211) $)
+    tant $p |- V/ [ [ T. /\ T. ] = T. ] . $=
+	    ( vx vy ft fan fop fal fab fap ff fx feq to dx wt wab ax-1 ax-4c eqr eqtr
+      wf opeq13 wxid wap aleq eqeq12 mpeq tab dat dft df-al ) DDEFZDBGZADDCHZDI
+      ZUNJIZEFZUNBKZIZBGZLFULUMLFABAUNMMDCMBANZMCVANOPZQUQULAUTUMUODAUPDEMDDCAA
+      OZRMJDCAAUARUBMUSDBAMMUNURVAVBMBAUCZUDMURDCVAVDRUEUFUGDUMADDBHZVELFZAUMMM
+      UHVEAMMDBAMMDBAVCUIZPUJUMVFAMDBAVGUKSTST $.
+  $}
 
   $( Truth holds. (5212) $)
   truth $p |- V/ T. . $=
