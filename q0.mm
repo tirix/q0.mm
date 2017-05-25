@@ -1002,8 +1002,8 @@ $)
 
   ${
     $d x y V/ $.
-    $( Truth and Truth. (5211) $)
-    tant $p |- V/ [ [ T. /\ T. ] = T. ] . $=
+    $( Truth and Truth equals Truth. (5211) $)
+    tteqt $p |- V/ [ [ T. /\ T. ] = T. ] . $=
 	    ( vx vy ft fan fop fal fab fap ff fx feq to dx wt wab ax-1 ax-4c eqr eqtr
       wf opeq13 wxid wap aleq eqeq12 mpeq tab dat dft df-al ) DDEFZDBGZADDCHZDI
       ZUNJIZEFZUNBKZIZBGZLFULUMLFABAUNMMDCMBANZMCVANOPZQUQULAUTUMUODAUPDEMDDCAA
@@ -1011,9 +1011,13 @@ $)
       UHVEAMMDBAMMDBAVCUIZPUJUMVFAMDBAVGUKSTST $.
   $}
 
-  $( Truth holds. (5212) $)
+  $( Truth holds. (Lemma for 5212) $)
   truth $p |- V/ T. . $=
-    ? $.
+    ( fq feq fop ft eqid to tab wq dft eqr mpeq ) BBCDZEABAFEMAGGHGHBAGAIJKL $.
+
+  $( Truth and Truth. (5212) $)
+  tant $p |- V/ [ T. /\ T. ] . $=
+    ( ft fan fop truth tteqt eqr mpeq ) BBBCDZAAEIBAAFGH $.
 
   imval $p |- V/ [ [ A -> B ] == [ A == [ A /\ B ] ] ] . $=
     ? $.
