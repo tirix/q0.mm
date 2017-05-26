@@ -638,7 +638,6 @@ $)
   $( Axiom 4 is here broken down into 5 axioms like in Andrews [2002]. $)
   ${
     $d x B $.
-    ax-4c.1 $e |- V/ A : alpha $.
     $( Axiom 4.1 for formula where x is not free in ` B ` note that we make use 
        of Metamath's distinct variable statement. We dropped the hypothesis
        that ` B ` is of a type ` beta ` if ` x ` is of type ` alpha ` , since
@@ -913,7 +912,7 @@ $)
       [ [ [ L^ x B ] A ] = [ [ L^ x C ] A ] ] ] . $=
       ( feq fop fab fap to tab fq df-eq wq eqid r-t dat opab ax-4c opeq123 eqtr
       ) DGKLEMCNDEMCNZGEMCNZKEMCNZLFUGUHKLABBOCDEFGKHIJOBPBPZAKEFUJKQFFRBFSUAUB
-      UCUGUGFUHUHUIKUGFTACKEFHUDUHFTUEUF $.
+      UCUGUGFUHUHUIKUGFTCKEFUDUHFTUEUF $.
   $}
 
 $(
@@ -984,20 +983,31 @@ $)
       KZURHIZGNZDUPABGDEEABUAZBEGDFOZVBPUPUTDUPURUOUQKZHIZGNDUTABGDEUOVBVABUOGD
       ABUNCDABEUMBCDQVABECDFOBCDRSUBOZPBVDUSGDAURVCBGDQZABEUQVFVBBGDRZSABUOUQVF
       VEVGSUDVCURVFURHVCECLUQKZUMCLUQKZKVFURBABUQECVFUMVGVABECVFVBOBCVFRUCVHEVF
-      VIUQBUQECVFVGUEUQCVFUFUGTUHUITUJTUK $.
+      VIUQUQECVFUEUQCVFUFUGTUHUITUJTUK $.
   $}
+
+  $( (5209) is actually the application of Metamath's rule for substitution 
+     everywhere. $)
 
   ${
     $d x y V/ $.
     dft.1 $e |- V/ A : alpha $.
     $( A definition of truth. (5210) $)
     dft $p |- V/ [ T. = [ A = A ] ] . $=
-      ( vx vy ft fab fap feq  fop ax-4c eqr fx fal  wxid mpeq ax-4i eqeq12 eqtr
+      ( vx vy ft fab fap feq fop ax-4c eqr fx fal wxid mpeq ax-4i eqeq12 eqtr
       eqid tab wab dat ax-3 dx wap weq df-al abeq eqeq2 apeq1 eqab ) GGEHZBIZCB
-      BJKZUOGCABGECDLMUOENZUQJKZEHZBIZCUPUNUSCBUNFNZFHZUQIZVCJKZEHZJKZUNUSJKCVD
-      EOZVFCVBVBJKVGCVBCUAAAECVBVBAAUBAVBECAAVAFCAFCPUCUDZVHUEQAVDECAVCVCAECUFZ
-      AAVBUQVIVHAECPZUGZVKUHUIQVEUSCUNAVDURECVCUQVIVCUQUQFVIRZVLSUJUKQULUTUQEHB
-      IZVMJKCUPAABUQECUQDVJVJUMVMBCVMBBECRZVNSTTT $.
+      BJKZUOGCBGECLMUOENZUQJKZEHZBIZCUPUNUSCBUNFNZFHZUQIZVCJKZEHZJKZUNUSJKCVDEO
+      ZVFCVBVBJKVGCVBCUAAAECVBVBAAUBAVBECAAVAFCAFCPUCUDZVHUEQAVDECAVCVCAECUFZAA
+      VBUQVIVHAECPZUGZVKUHUIQVEUSCUNAVDURECVCUQVIVCUQUQFVIRZVLSUJUKQULUTUQEHBIZ
+      VMJKCUPAABUQECUQDVJVJUMVMBCVMBBECRZVNSTTT $.
+  $}
+
+  ${
+    $d x V/ $.
+    $( A definition of falsehood. (Lemma for (5214)) $)
+    dff $p |- V/ [ F. = [ A. x x ] ] . $=
+      ( ff ft fab fx feq fop fal df-f to wxid df-al eqr eqtr ) CDAEAFZAEGHZBPAI
+      ZABJRQBKPABKABLMNO $.
   $}
 
   ${
@@ -1005,10 +1015,10 @@ $)
     $( Truth and Truth equals Truth. (5211) $)
     tteqt $p |- V/ [ [ T. /\ T. ] = T. ] . $=
 	    ( vx vy ft fan fop fal fab fap ff fx feq to dx wt wab ax-1 ax-4c eqr eqtr
-      wf opeq13 wxid wap aleq eqeq12 mpeq tab dat dft df-al ) DDEFZDBGZADDCHZDI
-      ZUNJIZEFZUNBKZIZBGZLFULUMLFABAUNMMDCMBANZMCVANOPZQUQULAUTUMUODAUPDEMDDCAA
-      OZRMJDCAAUARUBMUSDBAMMUNURVAVBMBAUCZUDMURDCVAVDRUEUFUGDUMADDBHZVELFZAUMMM
-      UHVEAMMDBAMMDBAVCUIZPUJUMVFAMDBAVGUKSTST $.
+      opeq13 wxid wap aleq eqeq12 mpeq tab dat dft df-al ) DDEFZDBGZADDCHZDIZUM
+      JIZEFZUMBKZIZBGZLFUKULLFABAUMMMDCMBANZMCUTNOPZQUPUKAUSULUNDAUODEDDCARJDCA
+      RUAMURDBAMMUMUQUTVAMBAUBUCUQDCUTRUDUEUFDULADDBHZVBLFZAULMMUGVBAMMDBAMMDBA
+      AOUHZPUIULVCAMDBAVDUJSTST $.
   $}
 
   $( Truth holds. (Lemma for 5212) $)
@@ -1019,17 +1029,38 @@ $)
   tant $p |- V/ [ T. /\ T. ] . $=
     ( ft fan fop truth tteqt eqr mpeq ) BBBCDZAAEIBAAFGH $.
 
-  imval $p |- V/ [ [ A -> B ] == [ A == [ A /\ B ] ] ] . $=
-    ? $.
+  ${
+    eqan.1 $e |- V/ A : alpha $.
+    eqan.2 $e |- V/ C : beta $.
+    eqan.3 $e |- V/ [ A = B ] . $.
+    eqan.4 $e |- V/ [ C = D ] . $.
+    $( Infer conjunction of equalities (5213) $)
+    eqan $p |- V/ [ [ A = B ] /\ [ C = D ] ] . $=
+      ( ft fan fop feq tant dft opeq3 eqtr opeq13 mpeq ) LLMNCDONZFGONZMNEEPLUB
+      ELUCMLCCONEUBACEHQCDECOJRSLFFONEUCBFEIQFGEFOKRSTUA $.
+  $}
 
-  imval2 $p |- V/ [ [ A -> B ] = [ [ ~ A ] \/ B ] ] . $=
-    ? $.
+  ${
+    $d x y V/ $.
+    $( Conjunction of Truth and Falsehood. (5214) $)
+    tanf $p |- V/ [ [ T. /\ F. ] = F. ] . $=
+      ( vy vx ft ff fan fop fx fal fab fap feq to dx wxid wab ax-1 ax-4i opeq13
+      wap aleq eqeq12 mpeq dff eqr eqtr ) DEFGZBHZBIZAECHZCJZDKZUKEKZFGZUKUHKZB
+      IZLGUGUILGABAUKMMUJCMBANZMCUQOPZQUNUGAUPUIULDAUMEFDCARECARSMUOUHBAMMUKUHU
+      QURMBAOTUHCUQRUAUBUCEUIABAUDUEUF $.
+  $}
 
 $(
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
                             Examples
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 $)
+
+  imval $p |- V/ [ [ A -> B ] == [ A == [ A /\ B ] ] ] . $=
+    ? $.
+
+  imval2 $p |- V/ [ [ A -> B ] = [ [ ~ A ] \/ B ] ] . $=
+    ? $.
 
   ${
     exmpbi.1 $e |- V/ A : _o $.
