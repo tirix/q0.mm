@@ -805,6 +805,9 @@ $(
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 $)
 
+  $( Theorems (5202) ~ (5204) are not proven here, substitution rules will
+     be used instead. $)
+
   $( We can now also prove equality builders for the operation and quantifier 
      forms $)
 
@@ -901,6 +904,15 @@ $)
       EQZFGPEQZQZIGPEQZQZHUKUMUJOZUIJFQZGPEQZUMQZHUNUIUPIQZGPZEQHURUHUTHEAUGUSG
       HFIAGHUAZJRUBSADCEUPGHIKDCUCZBJFVANLUDMUETUQULHUMAVBBEJGHFKNLUESTUOUNHUKU
       MHUJRUFT $.
+
+    ${
+      $d x R $.
+      $( If ` x ` is not free in ` R ` , then the result is simpler $)
+      opab13 $p |- V/ [ [ [ L^ x [ B R C ] ] A ] = 
+        [ [ [ L^ x B ] A ] R [ [ L^ x C ] A ] ] ] . $=
+        ( fop fab fap opab eqid ax-4c opeq123 eqtr ) FIJOGPEQFGPEQZIGPEQZJGPEQZ
+        OHUCUDJOABCDEFGHIJKLMNRUCUCHUDUDUEJUCHSEJGHTUDHSUAUB $.
+	  $}
   $}
 
   ${
@@ -910,9 +922,8 @@ $)
      $( A theorem similar to the ax-4 series, for equality $)
     eqab $p |- V/ [ [ [ L^ x [ B = C ] ] A ] = 
       [ [ [ L^ x B ] A ] = [ [ L^ x C ] A ] ] ] . $=
-      ( feq fop fab fap to tab fq df-eq wq eqid r-t dat opab ax-4c opeq123 eqtr
-      ) DGKLEMCNDEMCNZGEMCNZKEMCNZLFUGUHKLABBOCDEFGKHIJOBPBPZAKEFUJKQFFRBFSUAUB
-      UCUGUGFUHUHUIKUGFTCKEFUDUHFTUEUF $.
+      ( to feq tab fq df-eq wq r-t dat opab13 ) ABBKCDEFGLHIJKBMBMZALEFTLNFFOBF
+      PQRS $.
   $}
 
 $(
@@ -963,8 +974,29 @@ $)
       ABCDIGACDIABDEABDEFLZMJGABNOCDSPQR $.
   $}
 
-  $( Theorems (5202) ~ (5204) are not proven here, substitution rules will
-     be used instead. $)
+$(
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+                         Logical Implication
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+$)
+
+  ${
+    $d x y V/ $. $d y A $.
+    imv.1 $e |- V/ A : _o $.
+    imv.2 $e |- V/ B : _o $.
+    $( $)
+    imv $p |- V/ [ [ A -> B ] = [ A = [ A /\ B ] ] ] . $=
+      ( vy vx fin fop fx fan feq fab fap apeq1 to dx wxid dat eqtr dfop wan wop
+      df-in weq ax-4ab eqab ax-4i opab13 ax-4c opeq13 eqeq12 abeq tab ddt ) ABH
+      IZAAFJZKIZLIZFMZBNZCAABKIZLIZUPHANZBNCVAABCHUAVDUTCBVDGJZVEUQKIZLIZFMGMZA
+      NZCUTHVHCAGFCUDOVIVGGMANZFMCUTPPPAVGGFCDPVEVFPGPFCQZQZPGVKRZPPPVEUQVLKVMP
+      PUQGVKPFCRZSZVLUBZUCZUEUFPVJUSFCVJVEGMANZVFGMANZLIVKUSPPAVEGVKVFPPAFCDSZV
+      MVQUGVRAVKVSURAGVKUHZVSVRUQGMANZKIVKURPPPPAVEGVKUQKVTVMVOVPUIVRAVKWBUQKWA
+      AUQGVKUJUKTULTUMTTOTVAAFMBNZURFMBNZLICVCPPBAFCUREVTPPPAUQVKKVTVNPPPUNPUNK
+      GVKVPUOUCUGWCACWDVBBAFCUJZWDWCUQFMBNZKICVBPPPPBAFCUQKEVTVNVKUBUIWCACWFBKW
+      EBFCUHUKTULTT $.
+  $}
+
 
 $(
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -985,6 +1017,10 @@ $)
       VEVGSUDVCURVFURHVCECLUQKZUMCLUQKZKVFURBABUQECVFUMVGVABECVFVBOBCVFRUCVHEVF
       VIUQUQECVFUEUQCVFUFUGTUHUITUJTUK $.
   $}
+
+  $( (5207) We have not introduced an operator for substitution.
+     We'll actually write ` [ [ L^ x B ] A ] ` wherever "the result of 
+     the substitution of ` x ` by ` A ` in ` B ` " is meant. $)
 
   $( (5209) is actually the application of Metamath's rule for substitution 
      everywhere. $)
@@ -1043,7 +1079,7 @@ $)
   ${
     $d x y V/ $.
     $( Conjunction of Truth and Falsehood. (5214) $)
-    tanf $p |- V/ [ [ T. /\ F. ] = F. ] . $=
+    tfeqf $p |- V/ [ [ T. /\ F. ] = F. ] . $=
       ( vy vx ft ff fan fop fx fal fab fap feq to dx wxid wab ax-1 ax-4i opeq13
       wap aleq eqeq12 mpeq dff eqr eqtr ) DEFGZBHZBIZAECHZCJZDKZUKEKZFGZUKUHKZB
       IZLGUGUILGABAUKMMUJCMBANZMCUQOPZQUNUGAUPUIULDAUMEFDCARECARSMUOUHBAMMUKUHU
@@ -1052,14 +1088,60 @@ $)
 
 $(
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+                        Universal Instanciation
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+$)
+
+  ${
+    uin.1 $e |- V/ A : alpha $.
+    uin.2 $e |- x : alpha V/ B : _o $.
+    uin.3 $e |- V/ [ A. x B ] . $. 
+    $( Universal Instanciation (5215) - Here we write ` [ [ L^ x B ] A ] ` 
+       instead of "the result of the substitution of ` x ` by ` A ` in ` B ` " 
+       See (5207).
+       $)
+    uin $p |- V/ [ [ L^ x B ] A ] . $=
+      ( ft fab fap truth ax-4c eqr fal feq fop df-al mpeq apeq1 eqtr ) ICDJZBKZ
+      EELIIDJZBKZEUCUEIEBIDEMNUDUBEBCDOUDUBPQEHACDEGRSTUAS $.
+  $}
+
+  ${
+    $d x y V/ $.
+    tana.1 $e |- V/ A : _o $.
+    $( Conjunction with Truth. (5216) $)
+    tana $p |- V/ [ [ T. /\ A ] = A ] . $=
+      ( vy vx ft fan fop fab fap feq to ff eqab opeq13 opab13 ax-4c eqtr eqeq12
+      ax-4i fx dx wt dat wxid tab wan ddt wop weq fal tteqt teq tfeqf eqan ax-1
+      wf wab wap aleq mpeq uin ) FDUAZGHZDIAJZVCDIAJZKHZFAGHZAKHBVDVCKHZDIAJVGB
+      LAVIDBCLVDVCLDBUBZLLLFVCVJGLLFDBBUCZUDZLDBUEZLLLUFZLUFGEVJLEVJUBZUGZUHZUI
+      ZVMUJFFGHZFKHZFMGHZMKHZGHZVIDUKZBLLVSFBWAMLVSFBVKBULZUMLWAMBBUQZBUNZUMWEW
+      GUOFEUAZGHZWHKHZEIZFJZWKMJZGHZWKVCJZDUKZKHWCWDKHBDBWKVNLWKDBLLWJEBLWIWHLE
+      BUBZLLLFWHWQGWQUCZLEBUEZWQUGZUIZWSUJURUDZUPWNWCBWPWDWNWIEIZFJZWHEIZFJZKHZ
+      XCMJZXEMJZKHZGHBWCWLXGBWMXJGLLFWIEBWHVKXAWSNLLMWIEBWHWFXAWSNOXGVTBXJWBGXD
+      VSBXFFXDFEIZFJZXFGHBVSLLLLFFEBWHGVKWRWSWTPXLFBXFFGFFEBQFEBTZORXMSXHWABXIM
+      XHXKMJZXIGHBWALLLLMFEBWHGWFWRWSWTPXNFBXIMGMFEBQMEBTZORXOSORLWOVIDBLLWKVCV
+      JXBVMUSWOXCVCJZXEVCJZKHVJVILLVCWIEVJWHVMLLLFWHVOGVOUCZLEVJUEZVPUIXSNXPVDV
+      JXQVCXPXKVCJZXQGHVJVDLLLLVCFEVJWHGVMXRXSVPPXTFVJXQVCGVCFEVJQVCEVJTZORYASR
+      UTSVAVAVBLLAVDDBVCCVRVMNVAVEVHBVFAVEFDIAJZVFGHBVHLLLLAFDBVCGCVLVMVQPYBFBV
+      FAGAFDBQADBTZORYCSVA $.
+  $}
+
+  ${
+    mp.1 $e |- V/ [ A -> B ] . $.
+    mp.2 $e |- V/ A . $.
+    $( Modus Ponens. We introduce it here to express substitution (5224) $)
+    mp $p |- V/ B . $=
+      ? $.
+  $}
+
+
+$(
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
                             Examples
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 $)
 
-  imval $p |- V/ [ [ A -> B ] == [ A == [ A /\ B ] ] ] . $=
-    ? $.
-
-  imval2 $p |- V/ [ [ A -> B ] = [ [ ~ A ] \/ B ] ] . $=
+  imv2 $p |- V/ [ [ A -> B ] = [ [ ~ A ] \/ B ] ] . $=
     ? $.
 
   ${
@@ -1071,7 +1153,7 @@ $)
       ? $. 
   $}
 
-	eqcom $p |- V/ [ [ A = B ] -> [ B = A ] ] . $=
+	eqcom $p |- V/ [ [ A = B ] == [ B = A ] ] . $=
 	  ? $.
 
   ${
