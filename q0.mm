@@ -218,6 +218,20 @@ $)
     ds3f $a |- x : alpha z : gamma y : beta V/ W . $.
   $}
 
+  ${
+    drt.1 $e |- x : alpha V/ A : beta $.
+    $( Repeat a variable type declaration in a type statement $)
+    drt $a |- x : alpha x : alpha V/ A : beta $.
+  $}
+
+  ${
+    drf.1 $e |- x : alpha V/ W . $.
+    $( Repeat a variable type declaration in a wff statement $)
+    drf $a |- x : alpha x : alpha V/ W . $.
+  $}
+
+  $( The following comment contains hints to some automatic syntax verifiers. 
+     It does not seem to be used by MMJ2. $)  
   $( $j syntax 'wff'; 
         syntax 'statement'; 
         syntax '|-' as 'statement'; 
@@ -1086,12 +1100,6 @@ $)
       QURMBAOTUHCUQRUAUBUCEUIABAUDUEUF $.
   $}
 
-$(
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-                        Universal Instanciation
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-$)
-
   ${
     uin.1 $e |- V/ A : alpha $.
     uin.2 $e |- x : alpha V/ B : _o $.
@@ -1126,15 +1134,119 @@ $)
       FAGAFDBQADBTZORYCSVA $.
   $}
 
-  ${
-    mp.1 $e |- V/ [ A -> B ] . $.
-    mp.2 $e |- V/ A . $.
-    $( Modus Ponens. We introduce it here to express substitution (5224) $)
-    mp $p |- V/ B . $=
-      ? $.
+  ${ 
+    $d x y V/ $.
+    $( Equality of Truth and falsehood. (5217) $)
+    teqf $p |- V/ [ [ T. = F. ] = F. ] . $=
+      ( vy vx ft ff feq fop fal fan fab fap to dx wt wxid wab eqab ax-4c eqeq12
+      eqtr fx tab weq dat ax-1 ax-4i wf opeq13 wap aleq mpeq dft eqr opeq1 tana
+      eqeq1 df-f ax-3 teqr ) DEFGZDBUAZFGZBHZAEDUTIGZVCFGZUTVCFGADDFGZUTIGZVCFG
+      ZVEADCUAZFGZCJZDKZVKEKZIGZVKVAKZBHZFGVHABAVKLLUBLVKBALLVJCALDVILCAMZVQNZL
+      CAOZUCPUDZUEVNVGAVPVCVLVFAVMUTIVLDCJZDKZVICJZDKZFGAVFLLDDCAVIANZVRVSQWBDA
+      WDDDDCARDCAUFSTVMWAEKZWCEKZFGAUTLLEDCAVIAUGZVRVSQWFDAWGEEDCARECAUFSTUHLVO
+      VBBALLVKVALBAMZVTLBAOZUIZVOWAVAKZWCVAKZFGZWIVBLLVADCWIVIWJLCWIMNZLCWIOZQZ
+      WLDWIWMVAVADCWIRVACWIUFSZTUJSUKVGVDAVCVFDAUTIDVFALDAWEULUMUNUPUKVDUTAVCUT
+      ALDEAWEWHUCUOUPUKEVCAEWAWCFGZAVCCAUQWSWNBHAVCLLBAWAWCLLDCWIWOPLLVICWIWPPU
+      RLWNVBBALVOWNWIWKWQUSWRUJTTUMT $.
   $}
 
+  ${ 
+    $d x y V/ $.
+    teqa.1 $e |- V/ A : _o $.
+    $( Equality with Truth. (5218) $)
+    teqa $p |- V/ [ [ T. = A ] = A ] . $=
+      ( vy vx ft feq fop fab fap to dx wxid weq eqab ax-4c ax-4i eqeq12 eqtr ff
+      fx wt wab wap teqr fan fal wf dft eqr teqf eqan ax-1 dat opeq13 aleq mpeq
+      uin ) FDUAZGHZUSGHZDIAJZFAGHZAGHZBKAVADBCKFEUAZGHZVEGHZEIZUSJZVAKDBLZKKVH
+      USVJKKVGEVJKVFVEKEVJLZKFVEVKVKUBZKEVJMZNZVMNUCZKDBMZUDZVIVFEIZUSJZVEEIZUS
+      JZGHVJVAKKUSVFEVJVEVPVNVMOVSUTVJWAUSVSFEIZUSJZWAGHVJUTKKUSFEVJVEVPVLVMOWC
+      FVJWAUSUSFEVJPUSEVJQZRSWDRSZUEFFGHZFGHZFTGHZTGHZUFHZVADUGZBKKWFFBWHTKFFBB
+      UBZWLNKFTBWLBUHZNFWFBKFBWLUIUJBUKULVHFJZVHTJZUFHZVIDUGZGHWJWKGHBDBVHVOUMW
+      PWJBWQWKWNWGBWOWIUFWNVRFJZVTFJZGHBWGKKFVFEBVEWLKFVEKEBLKKFEBWLUNZKEBMZNZX
+      AOWRWFBWSFWRWBFJZWSGHBWFKKFFEBVEWLWTXAOXCFBWSFFFEBPFEBQZRSXDRSWOVRTJZVTTJ
+      ZGHBWIKKTVFEBVEWMXBXAOXEWHBXFTXEWBTJZXFGHBWHKKTFEBVEWMWTXAOXGFBXFTTFEBPTE
+      BQZRSXHRSUOKVIVADBVQWEUPRUQUQURVBUTDIAJZUSDIAJZGHBVDKKAUTDBUSCKFUSVJKKFDB
+      WLUNZVPNVPOXIVCBXJAXIFDIAJZXJGHBVCKKAFDBUSCXKVPOXLFBXJAAFDBPADBQZRSXMRSUQ
+      $.
+  $}
 
+  ${
+    eqt1.1 $e |- V/ A : _o $.
+    eqt1.2 $e |- V/ A . $.
+    $( Rule T, first direction (5219) $)
+    eqt1 $p |- V/ [ T. = A ] . $=
+      ( ft feq fop teqa eqr mpeq ) AEAFGZBDKABABCHIJ $.
+  $}
+
+  ${
+    eqt2.1 $e |- V/ A : _o $.
+    eqt2.2 $e |- V/ [ T. = A ] . $.
+    $( Rule T, second direction (5219) $)
+      eqt2 $p |- V/ A . $=
+      ( ft truth mpeq ) EABBFDG $.
+  $}
+
+  ${
+    $d x A $.
+    ugen.1 $e |- V/ A : _o $.
+    ugen.2 $e |- V/ A . $.
+    $( Universal generalization (5220) The distinct variable restriction 
+       prevents ` x ` from occurring in ` A ` . $)
+    ugen $p |- V/ [ A. x A ] . $=
+      ( ta ft fab feq fop fal dx to dat daf eqt1 abeq df-al eqr mpeq ) GBHABHIJ
+      ZABKZCFGABCAFBCLMFABCDNZFABCEOPQUBUACFABCUCRST $.
+  $}
+
+  ${
+    $d x V/ $. $d x F $.
+    rcasf.1 $e |- V/ F : ( _o _o ) $.
+    rcasf.2 $e |- V/ [ F T. ] . $.
+    rcasf.3 $e |- V/ [ F F. ] . $.
+    $( Rule of cases (5222), special version for functions. $)
+    rcasf $p |- x : _o V/  [ F x ] . $=
+      ( fab fx fap to dx wxid wap drt ft ff fan fop eqt1 mpeq tab dat fal wt wf
+      tant opeq13 daf ax-1 uin ax-4ap ax-4c ax-4i apeq12 ) CAGAHZIZUOAGUOIZIZCU
+      OIZJABKZUSAGUOIURUTJUOUSAUTJABLZJJUSABJJCUOUTJJUAZJCABDUBZVAMNCOIZCPIZQRZ
+      USAUCUTJVFABOOQRVFBBUFOVDBOVEQVDBJJCOBDBUDMESVEBJJCPBDBUEMFSUGTUHAUTCJVBC
+      ABVCNZUITUJJJJUOCAUTUOVAVGJJUOABVANUKTUPCUTUQUOUOCAUTULUOAUTUMUNT $.
+  $}
+
+  ${
+    tima.1 $e |- V/ A : _o $.
+    $( Implication of the truth (5223) $)
+    tima $p |- V/ [ [ T. -> A ] = A ] . $=
+      ( ft fin fop fan feq wt imv to wan wop teqa eqtr tana ) DAEFZDAGFZBAQDRHF
+      BRDABBIZCJRBKKKDABGSCBLMNOABCPO $.
+  $}
+
+  ${
+    mp.1 $e |- V/ A : _o $.
+    mp.2 $e |- V/ B : _o $.
+    mp.3 $e |- V/ [ A -> B ] . $.
+    mp.4 $e |- V/ A . $.
+    $( Modus Ponens. (5224) $)
+    mp $p |- V/ B . $=
+      ( ft fin fop eqt1 eqr opeq1 mpeq tima ) HBIJZBCABIJPCFAHCBIHACACDGKLMNBCE
+      ON $.
+  $}
+
+ $(  @( This additional form for the axiom 4, where the lambda form is applied 
+     to the same variable it is created with, is not in the original textbook, 
+     but seems to be required in Metamath to prove ~ rcases . @)
+  ax-4v @a |- V/ [ [ [ L^ x A ] x ] = A ] . @.
+
+  @{
+    @d x V/ @.
+    rcases.1 @e |- x : _o V/ A : _o @.
+    rcases.2 @e |- V/ [ [ L^ x A ] T. ] . @.
+    rcases.3 @e |- V/ [ [ L^ x A ] F. ] . @.
+    @( Rule of cases (5222) @)
+    rcases @p |- x : _o V/ A . @=
+      ( fab fx fap to dx wab rcasf ax-4v mpeq ) ABGZBHIAJBCKZBCPJJABCDLEFMABQNO
+      @.
+  @}
+
+ $)
 $(
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
                             Examples
