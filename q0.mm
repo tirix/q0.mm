@@ -218,6 +218,20 @@ $)
     ds3f $a |- x : alpha z : gamma y : beta V/ W . $.
   $}
 
+  ${
+    drt.1 $e |- x : alpha V/ A : beta $.
+    $( Repeat a variable type declaration in a type statement $)
+    drt $a |- x : alpha x : alpha V/ A : beta $.
+  $}
+
+  ${
+    drf.1 $e |- x : alpha V/ W . $.
+    $( Repeat a variable type declaration in a wff statement $)
+    drf $a |- x : alpha x : alpha V/ W . $.
+  $}
+
+  $( The following comment contains hints to some automatic syntax verifiers. 
+     It does not seem to be used by MMJ2. $)  
   $( $j syntax 'wff'; 
         syntax 'statement'; 
         syntax '|-' as 'statement'; 
@@ -299,7 +313,7 @@ $)
 
 $(
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-                           Q0's inference rule 
+                        Q0's inference rule ` R `
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 $)
 
@@ -464,7 +478,7 @@ $)
   ff $a wff F. $.
   fn $a wff ~ $.
   fan  $a wff /\ $.
-  fo   $a wff \/ $.
+  for  $a wff \/ $.
   fin  $a wff -> $.
 
   ${
@@ -487,6 +501,10 @@ $)
   $( Define conjunction. $)
   df-an $a |- V/ [ /\ = [ L^ x [ L^ y 
     [ [ L^ g [ [ g T. ] T. ] ] = [ L^ g [ [ g x ] y ] ] ] ] ] ] . $.
+
+  $( Define disunction. $)
+  df-or $a |- V/ [ \/ = [ L^ x [ L^ y 
+    [ ~ [ [ ~ x ] /\ [ ~ y ] ] ] ] ] ] . $.
 
   $( Define inference. $)
   df-in $a |- V/ [ -> = [ L^ x [ L^ y [ x = [ x /\ y ] ] ] ] ] . $.
@@ -613,8 +631,7 @@ $)
   ffg $f wff G $.
 
 	${
-	  ax-1.1 $e |- V/ G : ( _o _o ) $.
-    ax-1.2 $e |- V/ x : _o $.
+	  ax-1.1 $e |- x : _o V/ G : ( _o _o ) $.
     $( Axiom 1 expresses the idea that ` T. ` and ` F. ` are the only boolean 
        values. (1.) $)
 	  ax-1 $a |- V/ [ [ [ G T. ] /\ [ G F. ] ] = [ A. x [ G x ] ] ] . $.
@@ -639,7 +656,6 @@ $)
   $( Axiom 4 is here broken down into 5 axioms like in Andrews [2002]. $)
   ${
     $d x B $.
-    ax-4c.1 $e |- V/ A : alpha $.
     $( Axiom 4.1 for formula where x is not free in ` B ` note that we make use 
        of Metamath's distinct variable statement. We dropped the hypothesis
        that ` B ` is of a type ` beta ` if ` x ` is of type ` alpha ` , since
@@ -807,6 +823,9 @@ $(
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 $)
 
+  $( Theorems (5202) ~ (5204) are not proven here, substitution rules will
+     be used instead. $)
+
   $( We can now also prove equality builders for the operation and quantifier 
      forms $)
 
@@ -903,6 +922,15 @@ $)
       EQZFGPEQZQZIGPEQZQZHUKUMUJOZUIJFQZGPEQZUMQZHUNUIUPIQZGPZEQHURUHUTHEAUGUSG
       HFIAGHUAZJRUBSADCEUPGHIKDCUCZBJFVANLUDMUETUQULHUMAVBBEJGHFKNLUESTUOUNHUKU
       MHUJRUFT $.
+
+    ${
+      $d x R $.
+      $( If ` x ` is not free in ` R ` , then the result is simpler $)
+      opab13 $p |- V/ [ [ [ L^ x [ B R C ] ] A ] = 
+        [ [ [ L^ x B ] A ] R [ [ L^ x C ] A ] ] ] . $=
+        ( fop fab fap opab eqid ax-4c opeq123 eqtr ) FIJOGPEQFGPEQZIGPEQZJGPEQZ
+        OHUCUDJOABCDEFGHIJKLMNRUCUCHUDUDUEJUCHSEJGHTUDHSUAUB $.
+	  $}
   $}
 
   ${
@@ -912,9 +940,8 @@ $)
      $( A theorem similar to the ax-4 series, for equality $)
     eqab $p |- V/ [ [ [ L^ x [ B = C ] ] A ] = 
       [ [ [ L^ x B ] A ] = [ [ L^ x C ] A ] ] ] . $=
-      ( feq fop fab fap to tab fq df-eq wq eqid r-t dat opab ax-4c opeq123 eqtr
-      ) DGKLEMCNDEMCNZGEMCNZKEMCNZLFUGUHKLABBOCDEFGKHIJOBPBPZAKEFUJKQFFRBFSUAUB
-      UCUGUGFUHUHUIKUGFTACKEFHUDUHFTUEUF $.
+      ( to feq tab fq df-eq wq r-t dat opab13 ) ABBKCDEFGLHIJKBMBMZALEFTLNFFOBF
+      PQRS $.
   $}
 
 $(
@@ -965,8 +992,56 @@ $)
       ABCDIGACDIABDEABDEFLZMJGABNOCDSPQR $.
   $}
 
-  $( Theorems (5202) ~ (5204) are not proven here, substitution rules will
-     be used instead. $)
+$(
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+                          Values for Abreviations
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+$)
+
+  ${
+    $d x y V/ $. $d y A $.
+    imv.1 $e |- V/ A : _o $.
+    imv.2 $e |- V/ B : _o $.
+    $( Value of a logical implication $)
+    imv $p |- V/ [ [ A -> B ] = [ A = [ A /\ B ] ] ] . $=
+      ( vy vx fin fop fx fan feq fab fap apeq1 to dx wxid dat eqtr dfop wan wop
+      df-in weq ax-4ab eqab ax-4i opab13 ax-4c opeq13 eqeq12 abeq tab ddt ) ABH
+      IZAAFJZKIZLIZFMZBNZCAABKIZLIZUPHANZBNCVAABCHUAVDUTCBVDGJZVEUQKIZLIZFMGMZA
+      NZCUTHVHCAGFCUDOVIVGGMANZFMCUTPPPAVGGFCDPVEVFPGPFCQZQZPGVKRZPPPVEUQVLKVMP
+      PUQGVKPFCRZSZVLUBZUCZUEUFPVJUSFCVJVEGMANZVFGMANZLIVKUSPPAVEGVKVFPPAFCDSZV
+      MVQUGVRAVKVSURAGVKUHZVSVRUQGMANZKIVKURPPPPAVEGVKUQKVTVMVOVPUIVRAVKWBUQKWA
+      AUQGVKUJUKTULTUMTTOTVAAFMBNZURFMBNZLICVCPPBAFCUREVTPPPAUQVKKVTVNPPPUNPUNK
+      GVKVPUOUCUGWCACWDVBBAFCUJZWDWCUQFMBNZKICVBPPPPBAFCUQKEVTVNVKUBUIWCACWFBKW
+      EBFCUHUKTULTT $.
+  $}
+
+  ${
+    $d x y V/ $. $d y A $.
+    orv.1 $e |- V/ A : _o $.
+    orv.2 $e |- V/ B : _o $.
+    $( Value of a logical implication $)
+    orv $p |- V/ [ [ A \/ B ] = [ ~ [ [ ~ A ] /\ [ ~ B ] ] ] ] . $=
+      ( vy vx for fop fap fn fan fab to wap eqtr ax-4ap ax-4c apeq12 ddt fx dat
+      dfop df-or apeq1 dx wn wxid wan wop ax-4ab opab13 ax-4i opeq13 abeq tab )
+      ABHIHAJZBJZCKKAJZKBJZLIZJZABCHUCURKFMBJZUSKFUAZJZLIZFMBJZJZCVBURKVFJZFMZB
+      JCVHUQVJCBUQKKGUAZJZVELIZJZGMAJZFMZCVJUQVNFMGMZAJCVPHVQCAGFCUDUENNNAVNGFC
+      DNNKVMNGNFCUFZUFZVSUGZNNNVLVEVSLNNKVKVSVTNGVRUHZOZNNKVDVSVTNNVDGVRNFCUHZU
+      BZOZVSUIZUJZOUKPNVOVIFCVOKGMAJZVMGMAJZJVRVINNNAKGVRVMNNAFCDUBZVTWGQWHKVRW
+      IVFAKGVRRZWIVLGMAJZVEGMAJZLIVRVFNNNNAVLGVRVELWJWBWEWFULWLUSVRWMVELWLWHVKG
+      MAJZJVRUSNNNAKGVRVKWJVTWAQWHKVRWNAWKAGVRUMSPWMWHVDGMAJZJVRVENNNAKGVRVDWJV
+      TWDQWHKVRWOVDWKAVDGVRRSPUNPSPUOPUENNNBKFCVFENNNUPZKGVRVTTZNNNUSVEVRLNNKAV
+      RWQWJOZNNVEGVRWETNWPNUPLGVRWFTZUJQPVCKCVGVABKFCRZVGUSFMBJZVEFMBJZLICVANNN
+      NBUSFCVELEWRNNKVDVRWQWCOWSULXAUSCXBUTLXAVCAFMBJZJCUSNNNBKFCAEWQWJQVCKCXCA
+      WTBAFCRSPXBVCVDFMBJZJCUTNNNBKFCVDEWQWCQVCKCXDBWTBFCUMSPUNPSPP $.
+  $}
+
+  ${
+    negv.1 $e |- V/ A : _o $.
+    $( Value of negation $)
+     negv $p |- V/ [ [ ~ A ] = [ F. = A ] ] . $=
+       ( fn fap fq ff feq fop df-neg apeq1 to wf wqeq dfeq bieq eqr eqtr ) DAEF
+       GEZAEZBGAHIZDSBABJKUATBUATBLGABBMZCNLGABUBCOPQR $.
+  $}
 
 $(
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -985,7 +1060,18 @@ $)
       KZURHIZGNZDUPABGDEEABUAZBEGDFOZVBPUPUTDUPURUOUQKZHIZGNDUTABGDEUOVBVABUOGD
       ABUNCDABEUMBCDQVABECDFOBCDRSUBOZPBVDUSGDAURVCBGDQZABEUQVFVBBGDRZSABUOUQVF
       VEVGSUDVCURVFURHVCECLUQKZUMCLUQKZKVFURBABUQECVFUMVGVABECVFVBOBCVFRUCVHEVF
-      VIUQBUQECVFVGUEUQCVFUFUGTUHUITUJTUK $.
+      VIUQUQECVFUEUQCVFUFUGTUHUITUJTUK $.
+  $}
+
+  $( (5207) We have not introduced an operator for substitution.
+     We'll actually write ` [ [ L^ x B ] A ] ` wherever "the result of 
+     the substitution of ` x ` by ` A ` in ` B ` " is meant. $)
+
+  ${
+    5209.1 $e |- x : alpha V/ [ B = C ] . $.
+    $( (5209) $)
+    5209 $p |- V/ [ [ [ L^ x B ] A ] = [ [ L^ x C ] A ] ] . $=
+      ( fab abeq apeq1 ) CDHFDHEBACFDEGIJ $.
   $}
 
   ${
@@ -993,50 +1079,239 @@ $)
     dft.1 $e |- V/ A : alpha $.
     $( A definition of truth. (5210) $)
     dft $p |- V/ [ T. = [ A = A ] ] . $=
-      ( vx vy ft fab fap feq  fop ax-4c eqr fx fal  wxid mpeq ax-4i eqeq12 eqtr
+      ( vx vy ft fab fap feq fop ax-4c eqr fx fal wxid mpeq ax-4i eqeq12 eqtr
       eqid tab wab dat ax-3 dx wap weq df-al abeq eqeq2 apeq1 eqab ) GGEHZBIZCB
-      BJKZUOGCABGECDLMUOENZUQJKZEHZBIZCUPUNUSCBUNFNZFHZUQIZVCJKZEHZJKZUNUSJKCVD
-      EOZVFCVBVBJKVGCVBCUAAAECVBVBAAUBAVBECAAVAFCAFCPUCUDZVHUEQAVDECAVCVCAECUFZ
-      AAVBUQVIVHAECPZUGZVKUHUIQVEUSCUNAVDURECVCUQVIVCUQUQFVIRZVLSUJUKQULUTUQEHB
-      IZVMJKCUPAABUQECUQDVJVJUMVMBCVMBBECRZVNSTTT $.
+      BJKZUOGCBGECLMUOENZUQJKZEHZBIZCUPUNUSCBUNFNZFHZUQIZVCJKZEHZJKZUNUSJKCVDEO
+      ZVFCVBVBJKVGCVBCUAAAECVBVBAAUBAVBECAAVAFCAFCPUCUDZVHUEQAVDECAVCVCAECUFZAA
+      VBUQVIVHAECPZUGZVKUHUIQVEUSCUNAVDURECVCUQVIVCUQUQFVIRZVLSUJUKQULUTUQEHBIZ
+      VMJKCUPAABUQECUQDVJVJUMVMBCVMBBECRZVNSTTT $.
   $}
 
-  $( Truth and Truth. (5211) $)
-  tant $p |- V/ [ [ T. /\ T. ] = T. ] . $=
-    ? $.
+  ${
+    $d x V/ $.
+    $( A definition of falsehood. (Lemma for (5214)) $)
+    dff $p |- V/ [ F. = [ A. x x ] ] . $=
+      ( ff ft fab fx feq fop fal df-f to wxid df-al eqr eqtr ) CDAEAFZAEGHZBPAI
+      ZABJRQBKPABKABLMNO $.
+  $}
 
-  $( Truth holds. (5212) $)
+  ${
+    $d x y V/ $.
+    $( Truth and Truth equals Truth. (5211) $)
+    tteqt $p |- V/ [ [ T. /\ T. ] = T. ] . $=
+	    ( vx vy ft fan fop fal fab fap ff fx feq to dx wt wab ax-1 ax-4c eqr eqtr
+      opeq13 wxid wap aleq eqeq12 mpeq tab dat dft df-al ) DDEFZDBGZADDCHZDIZUM
+      JIZEFZUMBKZIZBGZLFUKULLFABAUMMMDCMBANZMCUTNOPZQUPUKAUSULUNDAUODEDDCARJDCA
+      RUAMURDBAMMUMUQUTVAMBAUBUCUQDCUTRUDUEUFDULADDBHZVBLFZAULMMUGVBAMMDBAMMDBA
+      AOUHZPUIULVCAMDBAVDUJSTST $.
+  $}
+
+  $( Truth holds. (Lemma for 5212) $)
   truth $p |- V/ T. . $=
-    ? $.
+    ( fq feq fop ft eqid to tab wq dft eqr mpeq ) BBCDZEABAFEMAGGHGHBAGAIJKL $.
 
-  imval $p |- V/ [ [ A -> B ] == [ A == [ A /\ B ] ] ] . $=
-    ? $.
+  $( Truth and Truth. (5212) $)
+  tant $p |- V/ [ T. /\ T. ] . $=
+    ( ft fan fop truth tteqt eqr mpeq ) BBBCDZAAEIBAAFGH $.
 
-  imval2 $p |- V/ [ [ A -> B ] = [ [ ~ A ] \/ B ] ] . $=
-    ? $.
+  ${
+    eqan.1 $e |- V/ A : alpha $.
+    eqan.2 $e |- V/ C : beta $.
+    eqan.3 $e |- V/ [ A = B ] . $.
+    eqan.4 $e |- V/ [ C = D ] . $.
+    $( Infer conjunction of equalities (5213) $)
+    eqan $p |- V/ [ [ A = B ] /\ [ C = D ] ] . $=
+      ( ft fan fop feq tant dft opeq3 eqtr opeq13 mpeq ) LLMNCDONZFGONZMNEEPLUB
+      ELUCMLCCONEUBACEHQCDECOJRSLFFONEUCBFEIQFGEFOKRSTUA $.
+  $}
+
+  ${
+    $d x y V/ $.
+    $( Conjunction of Truth and Falsehood. (5214) $)
+    tfeqf $p |- V/ [ [ T. /\ F. ] = F. ] . $=
+      ( vy vx ft ff fan fop fx fal fab fap feq to dx wxid wab ax-1 ax-4i opeq13
+      wap aleq eqeq12 mpeq dff eqr eqtr ) DEFGZBHZBIZAECHZCJZDKZUKEKZFGZUKUHKZB
+      IZLGUGUILGABAUKMMUJCMBANZMCUQOPZQUNUGAUPUIULDAUMEFDCARECARSMUOUHBAMMUKUHU
+      QURMBAOTUHCUQRUAUBUCEUIABAUDUEUF $.
+  $}
+
+  ${
+    uin.1 $e |- V/ A : alpha $.
+    uin.2 $e |- x : alpha V/ B : _o $.
+    uin.3 $e |- V/ [ A. x B ] . $. 
+    $( Universal Instanciation (5215) - Here we write ` [ [ L^ x B ] A ] ` 
+       instead of "the result of the substitution of ` x ` by ` A ` in ` B ` " 
+       See (5207).
+       $)
+    uin $p |- V/ [ [ L^ x B ] A ] . $=
+      ( ft fab fap truth ax-4c eqr fal feq fop df-al mpeq apeq1 eqtr ) ICDJZBKZ
+      EELIIDJZBKZEUCUEIEBIDEMNUDUBEBCDOUDUBPQEHACDEGRSTUAS $.
+  $}
+
+  ${
+    $d x y V/ $.
+    tana.1 $e |- V/ A : _o $.
+    $( Conjunction with Truth. (5216) $)
+    tana $p |- V/ [ [ T. /\ A ] = A ] . $=
+      ( vy vx ft fan fop fab fap feq to ff eqab opeq13 opab13 ax-4c eqtr eqeq12
+      ax-4i fx dx wt dat wxid tab wan ddt wop weq fal tteqt teq tfeqf eqan ax-1
+      wf wab wap aleq mpeq uin ) FDUAZGHZDIAJZVCDIAJZKHZFAGHZAKHBVDVCKHZDIAJVGB
+      LAVIDBCLVDVCLDBUBZLLLFVCVJGLLFDBBUCZUDZLDBUEZLLLUFZLUFGEVJLEVJUBZUGZUHZUI
+      ZVMUJFFGHZFKHZFMGHZMKHZGHZVIDUKZBLLVSFBWAMLVSFBVKBULZUMLWAMBBUQZBUNZUMWEW
+      GUOFEUAZGHZWHKHZEIZFJZWKMJZGHZWKVCJZDUKZKHWCWDKHBDBWKVNLWKDBLLWJEBLWIWHLE
+      BUBZLLLFWHWQGWQUCZLEBUEZWQUGZUIZWSUJURUDZUPWNWCBWPWDWNWIEIZFJZWHEIZFJZKHZ
+      XCMJZXEMJZKHZGHBWCWLXGBWMXJGLLFWIEBWHVKXAWSNLLMWIEBWHWFXAWSNOXGVTBXJWBGXD
+      VSBXFFXDFEIZFJZXFGHBVSLLLLFFEBWHGVKWRWSWTPXLFBXFFGFFEBQFEBTZORXMSXHWABXIM
+      XHXKMJZXIGHBWALLLLMFEBWHGWFWRWSWTPXNFBXIMGMFEBQMEBTZORXOSORLWOVIDBLLWKVCV
+      JXBVMUSWOXCVCJZXEVCJZKHVJVILLVCWIEVJWHVMLLLFWHVOGVOUCZLEVJUEZVPUIXSNXPVDV
+      JXQVCXPXKVCJZXQGHVJVDLLLLVCFEVJWHGVMXRXSVPPXTFVJXQVCGVCFEVJQVCEVJTZORYASR
+      UTSVAVAVBLLAVDDBVCCVRVMNVAVEVHBVFAVEFDIAJZVFGHBVHLLLLAFDBVCGCVLVMVQPYBFBV
+      FAGAFDBQADBTZORYCSVA $.
+  $}
+
+  ${ 
+    $d x y V/ $.
+    $( Equality of Truth and falsehood. (5217) $)
+    teqf $p |- V/ [ [ T. = F. ] = F. ] . $=
+      ( vy vx ft ff feq fop fal fan fab fap to dx wt wxid wab eqab ax-4c eqeq12
+      eqtr fx tab weq dat ax-1 ax-4i wf opeq13 wap aleq mpeq dft eqr opeq1 tana
+      eqeq1 df-f ax-3 teqr ) DEFGZDBUAZFGZBHZAEDUTIGZVCFGZUTVCFGADDFGZUTIGZVCFG
+      ZVEADCUAZFGZCJZDKZVKEKZIGZVKVAKZBHZFGVHABAVKLLUBLVKBALLVJCALDVILCAMZVQNZL
+      CAOZUCPUDZUEVNVGAVPVCVLVFAVMUTIVLDCJZDKZVICJZDKZFGAVFLLDDCAVIANZVRVSQWBDA
+      WDDDDCARDCAUFSTVMWAEKZWCEKZFGAUTLLEDCAVIAUGZVRVSQWFDAWGEEDCARECAUFSTUHLVO
+      VBBALLVKVALBAMZVTLBAOZUIZVOWAVAKZWCVAKZFGZWIVBLLVADCWIVIWJLCWIMNZLCWIOZQZ
+      WLDWIWMVAVADCWIRVACWIUFSZTUJSUKVGVDAVCVFDAUTIDVFALDAWEULUMUNUPUKVDUTAVCUT
+      ALDEAWEWHUCUOUPUKEVCAEWAWCFGZAVCCAUQWSWNBHAVCLLBAWAWCLLDCWIWOPLLVICWIWPPU
+      RLWNVBBALVOWNWIWKWQUSWRUJTTUMT $.
+  $}
+
+  ${ 
+    $d x y V/ $.
+    teqa.1 $e |- V/ A : _o $.
+    $( Equality with Truth. (5218) $)
+    teqa $p |- V/ [ [ T. = A ] = A ] . $=
+      ( vy vx ft feq fop fab fap to dx wxid weq eqab ax-4c ax-4i eqeq12 eqtr ff
+      fx wt wab wap teqr fan fal wf dft eqr teqf eqan ax-1 dat opeq13 aleq mpeq
+      uin ) FDUAZGHZUSGHZDIAJZFAGHZAGHZBKAVADBCKFEUAZGHZVEGHZEIZUSJZVAKDBLZKKVH
+      USVJKKVGEVJKVFVEKEVJLZKFVEVKVKUBZKEVJMZNZVMNUCZKDBMZUDZVIVFEIZUSJZVEEIZUS
+      JZGHVJVAKKUSVFEVJVEVPVNVMOVSUTVJWAUSVSFEIZUSJZWAGHVJUTKKUSFEVJVEVPVLVMOWC
+      FVJWAUSUSFEVJPUSEVJQZRSWDRSZUEFFGHZFGHZFTGHZTGHZUFHZVADUGZBKKWFFBWHTKFFBB
+      UBZWLNKFTBWLBUHZNFWFBKFBWLUIUJBUKULVHFJZVHTJZUFHZVIDUGZGHWJWKGHBDBVHVOUMW
+      PWJBWQWKWNWGBWOWIUFWNVRFJZVTFJZGHBWGKKFVFEBVEWLKFVEKEBLKKFEBWLUNZKEBMZNZX
+      AOWRWFBWSFWRWBFJZWSGHBWFKKFFEBVEWLWTXAOXCFBWSFFFEBPFEBQZRSXDRSWOVRTJZVTTJ
+      ZGHBWIKKTVFEBVEWMXBXAOXEWHBXFTXEWBTJZXFGHBWHKKTFEBVEWMWTXAOXGFBXFTTFEBPTE
+      BQZRSXHRSUOKVIVADBVQWEUPRUQUQURVBUTDIAJZUSDIAJZGHBVDKKAUTDBUSCKFUSVJKKFDB
+      WLUNZVPNVPOXIVCBXJAXIFDIAJZXJGHBVCKKAFDBUSCXKVPOXLFBXJAAFDBPADBQZRSXMRSUQ
+      $.
+  $}
+
+  ${
+    eqt1.1 $e |- V/ A : _o $.
+    eqt1.2 $e |- V/ A . $.
+    $( Rule T, first direction (5219) $)
+    eqt1 $p |- V/ [ T. = A ] . $=
+      ( ft feq fop teqa eqr mpeq ) AEAFGZBDKABABCHIJ $.
+  $}
+
+  ${
+    eqt2.1 $e |- V/ A : _o $.
+    eqt2.2 $e |- V/ [ T. = A ] . $.
+    $( Rule T, second direction (5219) $)
+      eqt2 $p |- V/ A . $=
+      ( ft truth mpeq ) EABBFDG $.
+  $}
+
+  ${
+    $d x A $.
+    ugen.1 $e |- V/ A : _o $.
+    ugen.2 $e |- V/ A . $.
+    $( Universal generalization (5220) The distinct variable restriction 
+       prevents ` x ` from occurring in ` A ` . $)
+    ugen $p |- V/ [ A. x A ] . $=
+      ( ta ft fab feq fop fal dx to dat daf eqt1 abeq df-al eqr mpeq ) GBHABHIJ
+      ZABKZCFGABCAFBCLMFABCDNZFABCEOPQUBUACFABCUCRST $.
+  $}
+
+  ${
+    $d x V/ $. $d x F $.
+    rcasap.1 $e |- V/ F : ( _o _o ) $.
+    rcasap.2 $e |- V/ [ F T. ] . $.
+    rcasap.3 $e |- V/ [ F F. ] . $.
+    rcasap.4 $e |- V/ B : _o $.
+    $( Rule of cases (5222), special version for function application. $)
+    rcasap $p |- V/  [ F B ] . $=
+      ( vx fab fap fx to dx wap ft ff fan fop eqt1 mpeq tab dat wxid tant wt wf
+      fal opeq13 ax-1 uin ax-4ap ax-4c ax-4i apeq12 ) CHIAJZHKZHIAJZJZCAJBCUPJZ
+      HIAJURBLAUSHBGLLCUPLHBMLLUALCHBDUBZLHBUCZNCOJZCPJZQRZUSHUGBOOQRVDBBUDOVBB
+      OVCQVBBLLCOBDBUENESVCBLLCPBDBUFNFSUHTHBCUTUITUJLLLACHBUPGUTVAUKTUOCBUQAAC
+      HBULAHBUMUNT $.
+  $}
+
+  ${
+    tima.1 $e |- V/ A : _o $.
+    $( Implication of the truth (5223) $)
+    tima $p |- V/ [ [ T. -> A ] = A ] . $=
+      ( ft fin fop fan feq wt imv to wan wop teqa eqtr tana ) DAEFZDAGFZBAQDRHF
+      BRDABBIZCJRBKKKDABGSCBLMNOABCPO $.
+  $}
+
+  ${
+    mp.1 $e |- V/ A : _o $.
+    mp.2 $e |- V/ B : _o $.
+    mp.3 $e |- V/ [ A -> B ] . $.
+    mp.4 $e |- V/ A . $.
+    $( Modus Ponens. (5224) $)
+    mp $p |- V/ B . $=
+      ( ft fin fop eqt1 eqr opeq1 mpeq tima ) HBIJZBCABIJPCFAHCBIHACACDGKLMNBCE
+      ON $.
+  $}
 
 $(
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-                            Examples
+                            Rule of Cases
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 $)
 
+  $( This additional form for the axiom 4, where the lambda form is applied 
+     to the same variable it is created with, is not in the original textbook, 
+     but seems to be required in Metamath to prove ~ rcases . $)
+  ax-4v $a |- V/ [ [ [ L^ x A ] x ] = A ] . $.
+
   ${
-    exmpbi.1 $e |- V/ A : _o $.
-    exmpbi.2 $e |- V/ [ A == B ] . $.
-    exmpbi.3 $e |- V/ [ E. x A ] . $.
-    $( Inference rule for existential unifier $)
-    exmpbi $p |- V/ [ E. x B ] . $=
-      ? $. 
+    $d x B $.
+    daabap.1 $e |- V/ B : alpha $.
+    daabap.2 $e |- V/ [ [ L^ x A ] B ] . $.
+	  $( This additional axiom, which adds a type declaration to the application
+	     of an abstration, where that variable ` x ` is actually free, seems to 
+	     be required in Metamath to prove ~ rcases . $)
+	  daabap $a |- x : alpha V/ [ [ L^ x A ] B ] . $.
   $}
 
-	eqcom $p |- V/ [ [ A = B ] -> [ B = A ] ] . $=
-	  ? $.
+  ${
+    $d x V/ $.
+    rcases.1 $e |- x : _o V/ A : _o $.
+    rcases.2 $e |- V/ [ [ L^ x A ] T. ] . $.
+    rcases.3 $e |- V/ [ [ L^ x A ] F. ] . $.
+    $( Rule of cases (5222) $)
+    rcases $p |- x : _o V/ A . $=
+      ( fab fx fap to dx drt wab ft wt daabap ff wf wxid rcasap ax-4v mpeq ) AB
+      GZBHZIAJBCKZUDUEUCJJABUEJJABCDLMJANBCCOEPJAQBCCRFPJBCSTABUEUAUB $.
+  $}
+
+ 
+$(
+#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
+                            Examples
+#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
+$)
 
   ${
-    wiki.1 $e |- V/ [ E. x A ] . $.
-    wiki.2 $e |- V/ [ A -> B ] . $.
+    wiki.1 $e |- x : _o V/ A : _o $.
+    wiki.2 $e |- x : _o V/ B : _o $.
+    wiki.3 $e |- V/ [ E. x A ] . $.
+    wiki.4 $e |- x : _o V/ [ A -> B ] . $.
     $( Example in wikipedia $)
     wiki $p |- V/ [ E. x [ A /\ B ] ] . $=
-      ? $.    
+      ( fex fan fop to fin feq dx imv mpeq exeq ) ACIABJKZCIDGLASCDEABMKASNKLCD
+      OZHABTEFPQRQ $.
 	$}
