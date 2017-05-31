@@ -1247,6 +1247,31 @@ $)
       HBULAHBUMUNT $.
   $}
 
+  ${
+    tima.1 $e |- V/ A : _o $.
+    $( Implication of the truth (5223) $)
+    tima $p |- V/ [ [ T. -> A ] = A ] . $=
+      ( ft fin fop fan feq wt imv to wan wop teqa eqtr tana ) DAEFZDAGFZBAQDRHF
+      BRDABBIZCJRBKKKDABGSCBLMNOABCPO $.
+  $}
+
+  ${
+    mp.1 $e |- V/ A : _o $.
+    mp.2 $e |- V/ B : _o $.
+    mp.3 $e |- V/ [ A -> B ] . $.
+    mp.4 $e |- V/ A . $.
+    $( Modus Ponens. (5224) $)
+    mp $p |- V/ B . $=
+      ( ft fin fop eqt1 eqr opeq1 mpeq tima ) HBIJZBCABIJPCFAHCBIHACACDGKLMNBCE
+      ON $.
+  $}
+
+$(
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+                            Rule of Cases
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+$)
+
   $( This additional form for the axiom 4, where the lambda form is applied 
      to the same variable it is created with, is not in the original textbook, 
      but seems to be required in Metamath to prove ~ rcases . $)
@@ -1273,30 +1298,11 @@ $)
       GZBHZIAJBCKZUDUEUCJJABUEJJABCDLMJANBCCOEPJAQBCCRFPJBCSTABUEUAUB $.
   $}
 
-  ${
-    tima.1 $e |- V/ A : _o $.
-    $( Implication of the truth (5223) $)
-    tima $p |- V/ [ [ T. -> A ] = A ] . $=
-      ( ft fin fop fan feq wt imv to wan wop teqa eqtr tana ) DAEFZDAGFZBAQDRHF
-      BRDABBIZCJRBKKKDABGSCBLMNOABCPO $.
-  $}
-
-  ${
-    mp.1 $e |- V/ A : _o $.
-    mp.2 $e |- V/ B : _o $.
-    mp.3 $e |- V/ [ A -> B ] . $.
-    mp.4 $e |- V/ A . $.
-    $( Modus Ponens. (5224) $)
-    mp $p |- V/ B . $=
-      ( ft fin fop eqt1 eqr opeq1 mpeq tima ) HBIJZBCABIJPCFAHCBIHACACDGKLMNBCE
-      ON $.
-  $}
-
  
 $(
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
                             Examples
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
 $)
 
   ${
