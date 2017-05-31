@@ -478,7 +478,7 @@ $)
   ff $a wff F. $.
   fn $a wff ~ $.
   fan  $a wff /\ $.
-  fo   $a wff \/ $.
+  for  $a wff \/ $.
   fin  $a wff -> $.
 
   ${
@@ -501,6 +501,10 @@ $)
   $( Define conjunction. $)
   df-an $a |- V/ [ /\ = [ L^ x [ L^ y 
     [ [ L^ g [ [ g T. ] T. ] ] = [ L^ g [ [ g x ] y ] ] ] ] ] ] . $.
+
+  $( Define disunction. $)
+  df-or $a |- V/ [ \/ = [ L^ x [ L^ y 
+    [ ~ [ [ ~ x ] /\ [ ~ y ] ] ] ] ] ] . $.
 
   $( Define inference. $)
   df-in $a |- V/ [ -> = [ L^ x [ L^ y [ x = [ x /\ y ] ] ] ] ] . $.
@@ -990,7 +994,7 @@ $)
 
 $(
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-                         Logical Implication
+                          Values for Abreviations
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 $)
 
@@ -998,7 +1002,7 @@ $)
     $d x y V/ $. $d y A $.
     imv.1 $e |- V/ A : _o $.
     imv.2 $e |- V/ B : _o $.
-    $( $)
+    $( Value of a logical implication $)
     imv $p |- V/ [ [ A -> B ] = [ A = [ A /\ B ] ] ] . $=
       ( vy vx fin fop fx fan feq fab fap apeq1 to dx wxid dat eqtr dfop wan wop
       df-in weq ax-4ab eqab ax-4i opab13 ax-4c opeq13 eqeq12 abeq tab ddt ) ABH
@@ -1011,6 +1015,33 @@ $)
       EBFCUHUKTULTT $.
   $}
 
+  ${
+    $d x y V/ $. $d y A $.
+    orv.1 $e |- V/ A : _o $.
+    orv.2 $e |- V/ B : _o $.
+    $( Value of a logical implication $)
+    orv $p |- V/ [ [ A \/ B ] = [ ~ [ [ ~ A ] /\ [ ~ B ] ] ] ] . $=
+      ( vy vx for fop fap fn fan fab to wap eqtr ax-4ap ax-4c apeq12 ddt fx dat
+      dfop df-or apeq1 dx wn wxid wan wop ax-4ab opab13 ax-4i opeq13 abeq tab )
+      ABHIHAJZBJZCKKAJZKBJZLIZJZABCHUCURKFMBJZUSKFUAZJZLIZFMBJZJZCVBURKVFJZFMZB
+      JCVHUQVJCBUQKKGUAZJZVELIZJZGMAJZFMZCVJUQVNFMGMZAJCVPHVQCAGFCUDUENNNAVNGFC
+      DNNKVMNGNFCUFZUFZVSUGZNNNVLVEVSLNNKVKVSVTNGVRUHZOZNNKVDVSVTNNVDGVRNFCUHZU
+      BZOZVSUIZUJZOUKPNVOVIFCVOKGMAJZVMGMAJZJVRVINNNAKGVRVMNNAFCDUBZVTWGQWHKVRW
+      IVFAKGVRRZWIVLGMAJZVEGMAJZLIVRVFNNNNAVLGVRVELWJWBWEWFULWLUSVRWMVELWLWHVKG
+      MAJZJVRUSNNNAKGVRVKWJVTWAQWHKVRWNAWKAGVRUMSPWMWHVDGMAJZJVRVENNNAKGVRVDWJV
+      TWDQWHKVRWOVDWKAVDGVRRSPUNPSPUOPUENNNBKFCVFENNNUPZKGVRVTTZNNNUSVEVRLNNKAV
+      RWQWJOZNNVEGVRWETNWPNUPLGVRWFTZUJQPVCKCVGVABKFCRZVGUSFMBJZVEFMBJZLICVANNN
+      NBUSFCVELEWRNNKVDVRWQWCOWSULXAUSCXBUTLXAVCAFMBJZJCUSNNNBKFCAEWQWJQVCKCXCA
+      WTBAFCRSPXBVCVDFMBJZJCUTNNNBKFCVDEWQWCQVCKCXDBWTBFCUMSPUNPSPP $.
+  $}
+
+  ${
+    negv.1 $e |- V/ A : _o $.
+    $( Value of negation $)
+     negv $p |- V/ [ [ ~ A ] = [ F. = A ] ] . $=
+       ( fn fap fq ff feq fop df-neg apeq1 to wf wqeq dfeq bieq eqr eqtr ) DAEF
+       GEZAEZBGAHIZDSBABJKUATBUATBLGABBMZCNLGABUBCOPQR $.
+  $}
 
 $(
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -1036,8 +1067,12 @@ $)
      We'll actually write ` [ [ L^ x B ] A ] ` wherever "the result of 
      the substitution of ` x ` by ` A ` in ` B ` " is meant. $)
 
-  $( (5209) is actually the application of Metamath's rule for substitution 
-     everywhere. $)
+  ${
+    5209.1 $e |- x : alpha V/ [ B = C ] . $.
+    $( (5209) $)
+    5209 $p |- V/ [ [ [ L^ x B ] A ] = [ [ L^ x C ] A ] ] . $=
+      ( fab abeq apeq1 ) CDHFDHEBACFDEGIJ $.
+  $}
 
   ${
     $d x y V/ $.
@@ -1199,16 +1234,43 @@ $)
 
   ${
     $d x V/ $. $d x F $.
-    rcasf.1 $e |- V/ F : ( _o _o ) $.
-    rcasf.2 $e |- V/ [ F T. ] . $.
-    rcasf.3 $e |- V/ [ F F. ] . $.
-    $( Rule of cases (5222), special version for functions. $)
-    rcasf $p |- x : _o V/  [ F x ] . $=
-      ( fab fx fap to dx wxid wap drt ft ff fan fop eqt1 mpeq tab dat fal wt wf
-      tant opeq13 daf ax-1 uin ax-4ap ax-4c ax-4i apeq12 ) CAGAHZIZUOAGUOIZIZCU
-      OIZJABKZUSAGUOIURUTJUOUSAUTJABLZJJUSABJJCUOUTJJUAZJCABDUBZVAMNCOIZCPIZQRZ
-      USAUCUTJVFABOOQRVFBBUFOVDBOVEQVDBJJCOBDBUDMESVEBJJCPBDBUEMFSUGTUHAUTCJVBC
-      ABVCNZUITUJJJJUOCAUTUOVAVGJJUOABVANUKTUPCUTUQUOUOCAUTULUOAUTUMUNT $.
+    rcasap.1 $e |- V/ F : ( _o _o ) $.
+    rcasap.2 $e |- V/ [ F T. ] . $.
+    rcasap.3 $e |- V/ [ F F. ] . $.
+    rcasap.4 $e |- V/ B : _o $.
+    $( Rule of cases (5222), special version for function application. $)
+    rcasap $p |- V/  [ F B ] . $=
+      ( vx fab fap fx to dx wap ft ff fan fop eqt1 mpeq tab dat wxid tant wt wf
+      fal opeq13 ax-1 uin ax-4ap ax-4c ax-4i apeq12 ) CHIAJZHKZHIAJZJZCAJBCUPJZ
+      HIAJURBLAUSHBGLLCUPLHBMLLUALCHBDUBZLHBUCZNCOJZCPJZQRZUSHUGBOOQRVDBBUDOVBB
+      OVCQVBBLLCOBDBUENESVCBLLCPBDBUFNFSUHTHBCUTUITUJLLLACHBUPGUTVAUKTUOCBUQAAC
+      HBULAHBUMUNT $.
+  $}
+
+  $( This additional form for the axiom 4, where the lambda form is applied 
+     to the same variable it is created with, is not in the original textbook, 
+     but seems to be required in Metamath to prove ~ rcases . $)
+  ax-4v $a |- V/ [ [ [ L^ x A ] x ] = A ] . $.
+
+  ${
+    $d x B $.
+    daabap.1 $e |- V/ B : alpha $.
+    daabap.2 $e |- V/ [ [ L^ x A ] B ] . $.
+	  $( This additional axiom, which adds a type declaration to the application
+	     of an abstration, where that variable ` x ` is actually free, seems to 
+	     be required in Metamath to prove ~ rcases . $)
+	  daabap $a |- x : alpha V/ [ [ L^ x A ] B ] . $.
+  $}
+
+  ${
+    $d x V/ $.
+    rcases.1 $e |- x : _o V/ A : _o $.
+    rcases.2 $e |- V/ [ [ L^ x A ] T. ] . $.
+    rcases.3 $e |- V/ [ [ L^ x A ] F. ] . $.
+    $( Rule of cases (5222) $)
+    rcases $p |- x : _o V/ A . $=
+      ( fab fx fap to dx drt wab ft wt daabap ff wf wxid rcasap ax-4v mpeq ) AB
+      GZBHZIAJBCKZUDUEUCJJABUEJJABCDLMJANBCCOEPJAQBCCRFPJBCSTABUEUAUB $.
   $}
 
   ${
@@ -1230,48 +1292,20 @@ $)
       ON $.
   $}
 
- $(  @( This additional form for the axiom 4, where the lambda form is applied 
-     to the same variable it is created with, is not in the original textbook, 
-     but seems to be required in Metamath to prove ~ rcases . @)
-  ax-4v @a |- V/ [ [ [ L^ x A ] x ] = A ] . @.
-
-  @{
-    @d x V/ @.
-    rcases.1 @e |- x : _o V/ A : _o @.
-    rcases.2 @e |- V/ [ [ L^ x A ] T. ] . @.
-    rcases.3 @e |- V/ [ [ L^ x A ] F. ] . @.
-    @( Rule of cases (5222) @)
-    rcases @p |- x : _o V/ A . @=
-      ( fab fx fap to dx wab rcasf ax-4v mpeq ) ABGZBHIAJBCKZBCPJJABCDLEFMABQNO
-      @.
-  @}
-
- $)
+ 
 $(
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
                             Examples
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 $)
 
-  imv2 $p |- V/ [ [ A -> B ] = [ [ ~ A ] \/ B ] ] . $=
-    ? $.
-
   ${
-    exmpbi.1 $e |- V/ A : _o $.
-    exmpbi.2 $e |- V/ [ A == B ] . $.
-    exmpbi.3 $e |- V/ [ E. x A ] . $.
-    $( Inference rule for existential unifier $)
-    exmpbi $p |- V/ [ E. x B ] . $=
-      ? $. 
-  $}
-
-	eqcom $p |- V/ [ [ A = B ] == [ B = A ] ] . $=
-	  ? $.
-
-  ${
-    wiki.1 $e |- V/ [ E. x A ] . $.
-    wiki.2 $e |- V/ [ A -> B ] . $.
+    wiki.1 $e |- x : _o V/ A : _o $.
+    wiki.2 $e |- x : _o V/ B : _o $.
+    wiki.3 $e |- V/ [ E. x A ] . $.
+    wiki.4 $e |- x : _o V/ [ A -> B ] . $.
     $( Example in wikipedia $)
     wiki $p |- V/ [ E. x [ A /\ B ] ] . $=
-      ? $.    
+      ( fex fan fop to fin feq dx imv mpeq exeq ) ACIABJKZCIDGLASCDEABMKASNKLCD
+      OZHABTEFPQRQ $.
 	$}
